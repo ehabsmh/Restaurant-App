@@ -26,10 +26,8 @@ function Categories() {
       const { data, error } = await supabase.from("categories").select("*");
       if (error) throw new Error(error.message);
 
-      if (data) {
-        console.log(data);
-        setCategories(data);
-      }
+      console.log(data);
+      setCategories(data);
     } catch (error) {
       if (error instanceof Error) setError(error.message);
     } finally {
