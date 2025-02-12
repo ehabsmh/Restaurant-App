@@ -13,11 +13,15 @@ function Subcategory({ subcategory }: SubcategoryProps) {
       onClick={() => {
         handleActiveSubcategory(subcategory.id);
       }}
-      className={`cursor-pointer ${activeSubcategory === subcategory.id ? "bg-main-active/45 rounded-md" : ""} mb-10 flex w-16 flex-col items-center justify-between`}
+      className={`cursor-pointer ${activeSubcategory === subcategory.id ? "lg:bg-main-active/45 from-gradient-1 to-gradient-2 rounded-md bg-gradient-to-br lg:bg-none" : ""} mb-5 flex flex-col items-center justify-center p-5 lg:mb-10 lg:h-16 lg:w-16`}
     >
-      <img src={subcategory.icon} alt={subcategory.name} className="w-9" />
+      <img
+        src={subcategory.icon}
+        alt={subcategory.name}
+        className="w-6 lg:w-9"
+      />
       <p
-        className={`${activeSubcategory === subcategory.id ? "text-white" : "text-main-active"} text-center text-sm`}
+        className={`${activeSubcategory === subcategory.id ? "text-white" : "lg:text-main-active text-main-inactive"} text-center text-xs lg:text-sm`}
       >
         {subcategory.name}
       </p>

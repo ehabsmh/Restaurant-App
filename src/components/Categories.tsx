@@ -46,7 +46,7 @@ function Categories() {
       {!isLoading && error && <p>{error}</p>}
       {!isLoading && !error && (
         <nav id="categories">
-          <ul>
+          <ul className="flex items-center justify-center overflow-auto lg:block">
             {categories.map((category) => (
               <Category key={category.id} category={category} />
             ))}

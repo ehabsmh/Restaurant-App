@@ -4,6 +4,8 @@ import { useItemInfo } from "../contexts/ItemInfoContext";
 import { useEffect, useState } from "react";
 import supabase from "../services/supabase";
 import Loader from "../ui/Loader";
+import Categories from "./Categories";
+import Subcategories from "./Subcategories";
 
 export interface IItems {
   id: number;
@@ -53,22 +55,25 @@ function Items() {
 
   return (
     <>
-      <div className="flex h-4/5 flex-col items-center lg:ml-10">
-        {isLoading && <Loader color="#ed4b74" />}
-        <div className="mb-10 flex w-80 items-center justify-between lg:hidden">
-          <div className="cursor-pointer">
-            <p className="text-main-inactive text-sm">Choose Category:</p>
-            <p className="text-secondary font-bold">Foods</p>
-          </div>
-          <FiArrowRight />
-          <div className="cursor-pointer">
-            <p className="text-main-inactive text-sm">Choose subcategory:</p>
-            <p className="text-secondary font-bold">Pasta</p>
-          </div>
+      <div className="w-80 lg:hidden">
+        <div className="cursor-pointer p-3">
+          <p className="text-main-inactive mb-2 text-sm">Choose Category:</p>
+          {/* <p className="text-secondary font-bold">Category</p> */}
+          <Categories />
         </div>
+        {/* <FiArrowRight /> */}
+        <div className="cursor-pointer p-3">
+          <p className="text-main-inactive mb-2 text-sm">Choose subcategory:</p>
+          {/* <p className="text-secondary font-bold">Pasta</p> */}
+          <Subcategories />
+        </div>
+      </div>
+      <div className="flex h-fit flex-col items-center overflow-auto px-5 lg:ml-10 lg:mt-7 lg:h-4/5 lg:p-0">
+        {isLoading && <Loader color="#ed4b74" />}
+
         <div
           id="items"
-          className="mt-10 flex w-full flex-col items-center overflow-auto lg:grid lg:grid-cols-3 lg:gap-5"
+          className="mt-5 flex w-full items-center justify-between gap-5 lg:mt-0 lg:grid lg:grid-cols-3"
         >
           {!isLoading &&
             !error &&

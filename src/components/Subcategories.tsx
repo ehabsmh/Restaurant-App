@@ -45,11 +45,11 @@ function Subcategories() {
     [activeCategory],
   );
   return (
-    <div className="from-gradient-1 to-gradient-2 mt-3 rounded-r-md bg-gradient-to-br lg:flex lg:h-1/2 lg:w-28 lg:flex-col lg:items-center lg:justify-center">
+    <div className="lg:from-gradient-1 lg:to-gradient-2 mt-3 lg:flex lg:h-1/2 lg:w-28 lg:flex-col lg:items-center lg:justify-center lg:rounded-r-md lg:bg-gradient-to-br">
       {isLoading && <Loader color="#ffdfdf" />}
       {!isLoading && error && <p>{error}</p>}
       {!isLoading && !error && (
-        <ul className="flex flex-col items-center justify-center">
+        <ul className="flex items-center justify-center overflow-auto lg:flex-col">
           {subcategories.map((subcategory) => (
             <Subcategory key={subcategory.id} subcategory={subcategory} />
           ))}
