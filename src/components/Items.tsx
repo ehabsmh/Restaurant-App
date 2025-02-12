@@ -1,11 +1,9 @@
-import { FiArrowRight } from "react-icons/fi";
 import Item from "./Item";
 import { useItemInfo } from "../contexts/ItemInfoContext";
 import { useEffect, useState } from "react";
 import supabase from "../services/supabase";
 import Loader from "../ui/Loader";
-import Categories from "./Categories";
-import Subcategories from "./Subcategories";
+import SmallScreenCategories from "../ui/SmallScreenCategories";
 
 export interface IItems {
   id: number;
@@ -55,19 +53,7 @@ function Items() {
 
   return (
     <>
-      <div className="w-80 lg:hidden">
-        <div className="cursor-pointer p-3">
-          <p className="text-main-inactive mb-2 text-sm">Choose Category:</p>
-          {/* <p className="text-secondary font-bold">Category</p> */}
-          <Categories />
-        </div>
-        {/* <FiArrowRight /> */}
-        <div className="cursor-pointer p-3">
-          <p className="text-main-inactive mb-2 text-sm">Choose subcategory:</p>
-          {/* <p className="text-secondary font-bold">Pasta</p> */}
-          <Subcategories />
-        </div>
-      </div>
+      <SmallScreenCategories />
       <div className="flex h-fit flex-col items-center overflow-auto px-5 lg:ml-10 lg:mt-7 lg:h-4/5 lg:p-0">
         {isLoading && <Loader color="#ed4b74" />}
 
