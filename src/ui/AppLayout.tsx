@@ -1,17 +1,17 @@
 import Sidebar from "./Sidebar";
-import { ItemInfoProvider } from "../contexts/ItemInfoContext";
+import { useItemInfo } from "../contexts/ItemInfoContext";
 import Items from "../components/Items";
+import ItemDetails from "../components/ItemDetails";
 
 function AppLayout() {
+  const { activeItem } = useItemInfo();
   return (
     <>
-      <ItemInfoProvider>
-        <Sidebar />
+      <Sidebar />
 
-        {/* <Navbar /> */}
-        <Items />
-        {/* <Order /> */}
-      </ItemInfoProvider>
+      {/* <Navbar /> */}
+      <Items />
+      {activeItem && <ItemDetails />}
     </>
   );
 }

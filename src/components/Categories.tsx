@@ -26,7 +26,6 @@ function Categories() {
       const { data, error } = await supabase.from("categories").select("*");
       if (error) throw new Error(error.message);
 
-      console.log(data);
       setCategories(data);
     } catch (error) {
       if (error instanceof Error) setError(error.message);
@@ -46,7 +45,7 @@ function Categories() {
       {!isLoading && error && <p>{error}</p>}
       {!isLoading && !error && (
         <nav id="categories">
-          <ul className="flex items-center justify-center overflow-auto lg:block">
+          <ul className="flex gap-5 overflow-auto lg:block">
             {categories.map((category) => (
               <Category key={category.id} category={category} />
             ))}

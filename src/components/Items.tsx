@@ -37,7 +37,6 @@ function Items() {
           if (error) throw new Error(error.message);
 
           setItems(data);
-          console.log(data);
         } catch (error) {
           if (error instanceof Error) setError(error.message);
         } finally {
@@ -54,7 +53,7 @@ function Items() {
   return (
     <>
       <SmallScreenCategories />
-      <div className="flex h-fit flex-col items-center overflow-auto px-5 lg:ml-10 lg:mt-7 lg:h-4/5 lg:p-0">
+      <div className="flex h-fit flex-col items-center overflow-auto px-5 lg:ml-10 lg:mt-7 lg:h-4/5 lg:overflow-x-hidden lg:p-0">
         {isLoading && <Loader color="#ed4b74" />}
 
         <div

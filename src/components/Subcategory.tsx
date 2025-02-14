@@ -6,11 +6,13 @@ type SubcategoryProps = {
 };
 
 function Subcategory({ subcategory }: SubcategoryProps) {
-  const { activeSubcategory, handleActiveSubcategory } = useItemInfo();
+  const { activeSubcategory, handleActiveSubcategory, handleActiveItem } =
+    useItemInfo();
 
   return (
     <li
       onClick={() => {
+        handleActiveItem(null);
         handleActiveSubcategory(subcategory.id);
       }}
       className={`cursor-pointer ${activeSubcategory === subcategory.id ? "lg:bg-main-active/45 from-gradient-1 to-gradient-2 rounded-md bg-gradient-to-br lg:bg-none" : ""} mb-5 flex flex-col items-center justify-center p-5 lg:mb-10 lg:h-16 lg:w-16`}

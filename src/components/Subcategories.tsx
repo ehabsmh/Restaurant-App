@@ -44,12 +44,13 @@ function Subcategories() {
     },
     [activeCategory],
   );
+
   return (
-    <div className="lg:from-gradient-1 lg:to-gradient-2 mt-3 lg:flex lg:h-1/2 lg:w-28 lg:flex-col lg:items-center lg:justify-center lg:rounded-r-md lg:bg-gradient-to-br">
+    <div className="lg:from-gradient-1 lg:to-gradient-2 mt-3 overflow-auto lg:flex lg:h-1/2 lg:w-28 lg:flex-col lg:items-center lg:rounded-r-md lg:bg-gradient-to-br">
       {isLoading && <Loader color="#ffdfdf" />}
       {!isLoading && error && <p>{error}</p>}
       {!isLoading && !error && (
-        <ul className="flex items-center justify-center overflow-auto lg:flex-col">
+        <ul className="mt-5 flex gap-5 lg:flex-col">
           {subcategories.map((subcategory) => (
             <Subcategory key={subcategory.id} subcategory={subcategory} />
           ))}
