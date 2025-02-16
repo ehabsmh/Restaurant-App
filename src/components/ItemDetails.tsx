@@ -46,8 +46,8 @@ function ItemDetails() {
   if (!activeItem) return null;
 
   return (
-    <div className="before:bg-body relative ml-8 hidden overflow-y-auto before:absolute before:h-full before:w-0.5 lg:mt-7 lg:block">
-      <div className="mx-auto flex w-[90%] flex-col items-center justify-center gap-3">
+    <div className="ml-8 hidden h-[85vh] grow overflow-y-auto lg:mt-7 lg:block">
+      <div className="before:bg-body relative mx-auto flex w-[90%] flex-col items-center justify-center gap-3 before:absolute before:-left-5 before:bottom-0 before:top-0 before:w-0.5">
         <img
           src={activeItem.image}
           alt={activeItem.name}

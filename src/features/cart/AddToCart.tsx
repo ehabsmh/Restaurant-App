@@ -4,7 +4,7 @@ function AddToCart() {
   return (
     <div className="">
       <p className="text-sm">Add to cart</p>
-      <BiCartAdd className="text-gradient-1 w-full" size={20} />
+      <BiCartAdd className="text-gradient-1 w-full cursor-pointer" size={30} />
     </div>
   );
 }
