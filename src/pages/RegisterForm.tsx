@@ -1,8 +1,14 @@
+import { ChangeEvent, FormEvent } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
-function RegisterForm({ getUserInputs, register }) {
+type RegisterFormProps = {
+  getUserInputs: (e: ChangeEvent<HTMLInputElement>) => void;
+  register: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+};
+
+function RegisterForm({ getUserInputs, register }: RegisterFormProps) {
   return (
     <div className="limiter h-[90vh]">
       <ToastContainer />
@@ -10,7 +16,6 @@ function RegisterForm({ getUserInputs, register }) {
         <div className="wrap-login100 overflow-auto p-8">
           <form
             onSubmit={register}
-            onChange={getUserInputs}
             className="login100-form validate-form flex-sb flex-w"
           >
             <span className="login100-form-title p-b-53">Sign up With</span>
@@ -31,7 +36,12 @@ function RegisterForm({ getUserInputs, register }) {
               className="wrap-input100 validate-input mb-5"
               data-validate="First name is required"
             >
-              <input className="input100" type="text" name="firstName" />
+              <input
+                onChange={getUserInputs}
+                className="input100"
+                type="text"
+                name="firstName"
+              />
               <span className="focus-input100"></span>
             </div>
 
@@ -42,7 +52,12 @@ function RegisterForm({ getUserInputs, register }) {
               className="wrap-input100 validate-input mb-5"
               data-validate="Last name is required"
             >
-              <input className="input100" type="text" name="lastName" />
+              <input
+                onChange={getUserInputs}
+                className="input100"
+                type="text"
+                name="lastName"
+              />
               <span className="focus-input100"></span>
             </div>
 
@@ -53,7 +68,12 @@ function RegisterForm({ getUserInputs, register }) {
               className="wrap-input100 validate-input mb-5"
               data-validate="Email is required"
             >
-              <input className="input100" type="email" name="email" />
+              <input
+                onChange={getUserInputs}
+                className="input100"
+                type="email"
+                name="email"
+              />
               <span className="focus-input100"></span>
             </div>
 
@@ -68,7 +88,12 @@ function RegisterForm({ getUserInputs, register }) {
               className="wrap-input100 validate-input"
               data-validate="Password is required"
             >
-              <input className="input100" type="password" name="password" />
+              <input
+                onChange={getUserInputs}
+                className="input100"
+                type="password"
+                name="password"
+              />
               <span className="focus-input100"></span>
             </div>
 
@@ -79,7 +104,12 @@ function RegisterForm({ getUserInputs, register }) {
               className="wrap-input100 validate-input"
               data-validate="Address is required"
             >
-              <input className="input100" type="text" name="address" />
+              <input
+                onChange={getUserInputs}
+                className="input100"
+                type="text"
+                name="address"
+              />
               <span className="focus-input100"></span>
             </div>
 

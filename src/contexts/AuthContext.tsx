@@ -1,22 +1,28 @@
-import { createContext } from "react";
+import { User } from "@supabase/supabase-js";
+import { createContext, ReactNode, useContext, useState } from "react";
 
-// const AuthContext = createContext(null);
+type AuthContextType = {
+  currentUser: User | null;
+  handleCurrentUser: (user: User | null) => void;
+};
 
-// function AuthProvider({ children }: { children: ReactNode }) {
+const AuthContext = createContext<AuthContextType | null>(null);
 
-//   return (
-//     <ItemInfoContext.Provider value={value}>
-//       {children}
-//     </ItemInfoContext.Provider>
-//   );
-// }
+function AuthProvider({ children }: { children: ReactNode }) {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  function handleCurrentUser(user: User | null) {
+    setCurrentUser(user);
+  }
+  const value = { handleCurrentUser, currentUser };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
 
-// function useItemInfo() {
-//   const context = useContext(ItemInfoContext);
-//   if (!context)
-//     throw new Error("ItemInfoContext were used outside the ItemInfoProvider");
+function useSession() {
+  const context = useContext(AuthContext);
+  if (!context)
+    throw new Error("AuthContext were used outside the AuthProvider");
 
-//   return context;
-// }
+  return context;
+}
 
-// export { ItemInfoProvider, useItemInfo };
+export { AuthProvider, useSession };

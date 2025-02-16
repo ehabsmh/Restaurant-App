@@ -1,9 +1,11 @@
 import "../styles/login.css";
 import LoginForm from "./LoginForm";
 import supabase from "../services/supabase";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { IUser } from "./Register";
 import { useNavigate } from "react-router-dom";
+import { useSession } from "../contexts/AuthContext";
+import { getCurrentUser } from "../services/apiAuth";
 function Login() {
   const [error, setError] = useState("");
   const [user, setUser] = useState<IUser>({
@@ -11,17 +13,21 @@ function Login() {
     password: "",
   });
   const navigate = useNavigate();
+  const { handleCurrentUser } = useSession();
 
   function handleFormData(e: ChangeEvent<HTMLInputElement>) {
     const userCpy = { ...user };
+
     userCpy[e.target.name as keyof IUser] = e.target.value;
     setUser(userCpy);
   }
 
-  async function login(e: SubmitEvent) {
+  async function login(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!user.email || !user.password) setError("Missing email or password");
     try {
+      console.log(user);
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email: user.email,
         password: user.password,
@@ -29,6 +35,8 @@ function Login() {
       if (error) throw new Error("Incorrect email or password");
       console.log(data);
       setError("");
+      const currentUser = await getCurrentUser();
+      handleCurrentUser(currentUser);
       navigate("/", { replace: true });
     } catch (error) {
       if (error instanceof Error) setError(error.message);

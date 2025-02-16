@@ -1,4 +1,4 @@
-import { supabase } from "@supabase/auth-ui-shared";
+import supabase from "./supabase";
 
 export async function getCurrentUser() {
   const { data: session } = await supabase.auth.getSession();
@@ -8,4 +8,10 @@ export async function getCurrentUser() {
 
   if (error) throw new Error(error.message);
   return data?.user;
+}
+
+
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw new Error(error.message);
 }

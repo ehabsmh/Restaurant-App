@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import supabase from "../services/supabase";
 import RegisterForm from "./RegisterForm";
 import { toast } from "react-toastify";
@@ -20,13 +20,13 @@ function Register() {
     address: "",
   });
 
-  function getUserInputs(e: React.ChangeEvent<HTMLInputElement>) {
+  function getUserInputs(e: ChangeEvent<HTMLInputElement>) {
     const userCpy = { ...user };
     userCpy[e.target.name as keyof IUser] = e.target.value;
     setUser(userCpy);
   }
 
-  async function register(e: SubmitEvent) {
+  async function register(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
@@ -42,9 +42,9 @@ function Register() {
           .insert([
             {
               user_id: data.user.id,
-              first_name: user.firstName,
-              last_name: user.lastName,
-              address: user.address,
+              first_name: user.firstName || "",
+              last_name: user.lastName || "",
+              address: user.address || "",
             },
           ])
           .select();

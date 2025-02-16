@@ -1,17 +1,18 @@
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import "../styles/login.css";
-import supabase from "../services/supabase";
 import { Link } from "react-router-dom";
-function LoginForm({ login, error, handleFormData }) {
+import { ChangeEvent, FormEvent } from "react";
+type LoginFormProps = {
+  login: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  error: string;
+  handleFormData: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+function LoginForm({ login, error, handleFormData }: LoginFormProps) {
   return (
     <div className="limiter h-[90vh]">
       <div className="container-login100">
         <div className="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33 flex items-center justify-center p-16">
-          <form
-            onSubmit={login}
-            onChange={handleFormData}
-            className="login100-form validate-form"
-          >
+          <form onSubmit={login} className="login100-form validate-form">
             {error && <p className="mb-10 text-center text-red-500">{error}</p>}
             <span className="login100-form-title p-b-53">Sign In With</span>
             <div className="mb-10 flex justify-between">
@@ -31,7 +32,12 @@ function LoginForm({ login, error, handleFormData }) {
               className="wrap-input100 validate-input mb-5"
               data-validate="Email is required"
             >
-              <input className="input100" type="text" name="email" />
+              <input
+                onChange={handleFormData}
+                className="input100"
+                type="text"
+                name="email"
+              />
               <span className="focus-input100"></span>
             </div>
 
@@ -46,7 +52,12 @@ function LoginForm({ login, error, handleFormData }) {
               className="wrap-input100 validate-input"
               data-validate="Password is required"
             >
-              <input className="input100" type="password" name="password" />
+              <input
+                onChange={handleFormData}
+                className="input100"
+                type="password"
+                name="password"
+              />
               <span className="focus-input100"></span>
             </div>
 
