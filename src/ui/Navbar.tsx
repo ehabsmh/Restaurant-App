@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSession } from "../contexts/AuthContext";
 import { logout } from "../services/apiAuth";
+import { BiCart } from "react-icons/bi";
 
 function Navbar() {
   const { currentUser, handleCurrentUser } = useSession();
@@ -11,13 +12,21 @@ function Navbar() {
         <h1 className="text-secondary text-2xl font-bold">Foods</h1>
         <p className="text-sm">Cak Benu Food & Beverages</p>
       </div>
+
       {!currentUser && (
         <div>
           <Link to="/login">Login</Link>
         </div>
       )}
+
       {currentUser && (
-        <div>
+        <div className="flex items-center gap-14">
+          <div>
+            <Link to="/cart">
+              <BiCart size={20} className="text-gradient-1" />
+              Cart
+            </Link>
+          </div>
           <Link
             to="/login"
             onClick={() => {

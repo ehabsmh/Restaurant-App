@@ -5,6 +5,7 @@ import { ItemInfoProvider } from "./contexts/ItemInfoContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./contexts/AuthContext";
+import Cart from "./features/cart/Cart";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <ItemInfoProvider>
           <Routes>
             <Route index element={<AppLayout />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>

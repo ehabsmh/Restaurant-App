@@ -5,14 +5,64 @@ import ItemSizes from "./ItemSizes";
 import supabase from "../services/supabase";
 import AddToCart from "../features/cart/AddToCart";
 import AddToFavorite from "../features/favorite/AddToFavorite";
+import { addItem, checkItemInCart } from "../services/apiCart";
+import { useSelector } from "react-redux";
+import { getCart } from "../features/cart/CartSlice";
 
 function ItemDetails() {
   const { activeItem } = useItemInfo();
   const [fullDescription, setFullDescription] = useState(false);
   const [ingredients, setIngredients] = useState("");
+  const [itemInCart, setItemInCart] = useState(false);
+
+  const [activeItemPrice, setActiveItemPrice] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [activeSizeId, setActiveSizeId] = useState(1);
+  const cartId = useSelector(getCart)?.id;
+
+  // See more & See less for description
   const itemDescription = !fullDescription
     ? activeItem?.description?.split(" ").slice(0, 5).join(" ") + "..."
     : activeItem?.description;
+
+  function handleActiveItemPrice(price: number) {
+    setActiveItemPrice(price);
+  }
+  function handleQuantity(quantity: number) {
+    if (quantity < 1) setQuantity(1);
+    setQuantity(quantity);
+  }
+  function incQuantity() {
+    setQuantity((quantity) => quantity + 1);
+  }
+
+  function decQuantity() {
+    setQuantity((quantity) => (quantity > 1 ? quantity - 1 : quantity));
+  }
+
+  async function addToCart() {
+    const item = {
+      item_id: activeItem?.id,
+      cart_id: cartId,
+      size_id: activeSizeId,
+      price: activeItemPrice,
+      quantity: quantity,
+      price_per_quantity: quantity * activeItemPrice,
+    };
+    addItem(item);
+  }
+
+  useEffect(
+    function () {
+      async function itemExistsCheck() {
+        const isInCart = await checkItemInCart(activeItem?.id);
+        setItemInCart(isInCart);
+      }
+
+      itemExistsCheck();
+    },
+    [activeItem],
+  );
 
   useEffect(
     function () {
@@ -73,10 +123,28 @@ function ItemDetails() {
           </p>
         </div>
 
-        <ItemQuantity />
-        <ItemSizes itemId={activeItem.id} />
+        {!itemInCart && (
+          <ItemQuantity
+            incQuantity={incQuantity}
+            decQuantity={decQuantity}
+            onChange={handleQuantity}
+            quantity={quantity}
+          />
+        )}
+
+        {!itemInCart && (
+          <ItemSizes
+            itemId={activeItem.id}
+            handleActiveItemPrice={handleActiveItemPrice}
+            activeSizeId={activeSizeId}
+            setActiveSizeId={setActiveSizeId}
+          />
+        )}
         <div className="mt-10 flex w-[50%] justify-between">
-          <AddToCart />
+          {!itemInCart && <AddToCart addToCart={addToCart} />}
+          {itemInCart && (
+            <p className="text-sm font-bold">Already in your cart</p>
+          )}
           <AddToFavorite />
         </div>
       </div>

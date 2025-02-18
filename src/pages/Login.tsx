@@ -6,12 +6,18 @@ import { IUser } from "./Register";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../contexts/AuthContext";
 import { getCurrentUser } from "../services/apiAuth";
+import { getUserCart } from "../services/apiCart";
+import { useAppDispatch } from "../hooks/hooks";
+import { addCart } from "../features/cart/CartSlice";
 function Login() {
   const [error, setError] = useState("");
   const [user, setUser] = useState<IUser>({
     email: "",
     password: "",
   });
+
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
   const { handleCurrentUser } = useSession();
 
@@ -36,6 +42,11 @@ function Login() {
       console.log(data);
       setError("");
       const currentUser = await getCurrentUser();
+      const userCart = await getUserCart(currentUser?.id);
+      console.log(userCart);
+
+      dispatch(addCart({ id: userCart.id, userId: currentUser?.id }));
+
       handleCurrentUser(currentUser);
       navigate("/", { replace: true });
     } catch (error) {

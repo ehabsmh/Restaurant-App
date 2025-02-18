@@ -37,34 +37,78 @@ export type Database = {
       cart: {
         Row: {
           created_at: string
-          item_id: number
-          order_id: string | null
-          quantity: number
+          id: number
+          num_items: number | null
           total_price: number | null
-          user_id: number
+          user_id: string
         }
         Insert: {
           created_at?: string
-          item_id: number
-          order_id?: string | null
-          quantity?: number
+          id?: number
+          num_items?: number | null
           total_price?: number | null
-          user_id: number
+          user_id: string
         }
         Update: {
           created_at?: string
-          item_id?: number
-          order_id?: string | null
-          quantity?: number
+          id?: number
+          num_items?: number | null
           total_price?: number | null
-          user_id?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      cart_item: {
+        Row: {
+          cart_id: number
+          created_at: string
+          id: number
+          item_id: number
+          price: number | null
+          price_per_quantity: number | null
+          quantity: number
+          size_id: number
+        }
+        Insert: {
+          cart_id: number
+          created_at?: string
+          id?: number
+          item_id: number
+          price?: number | null
+          price_per_quantity?: number | null
+          quantity?: number
+          size_id: number
+        }
+        Update: {
+          cart_id?: number
+          created_at?: string
+          id?: number
+          item_id?: number
+          price?: number | null
+          price_per_quantity?: number | null
+          quantity?: number
+          size_id?: number
         }
         Relationships: [
           {
-            foreignKeyName: "cart_item_id_fkey"
-            columns: ["item_id"]
+            foreignKeyName: "cart_item_cart_id_fkey"
+            columns: ["cart_id"]
             isOneToOne: false
+            referencedRelation: "cart"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_item_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: true
             referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_item_size_id_fkey"
+            columns: ["size_id"]
+            isOneToOne: false
+            referencedRelation: "sizes"
             referencedColumns: ["id"]
           },
         ]
@@ -228,52 +272,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "subcategories"
             referencedColumns: ["id"]
-          },
-        ]
-      }
-      order_items: {
-        Row: {
-          created_at: string
-          id: number
-          item_id: number
-          order_id: string
-          user_id: number
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          item_id: number
-          order_id: string
-          user_id: number
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          item_id?: number
-          order_id?: string
-          user_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "order_items_item_id_user_id_fkey"
-            columns: ["item_id", "user_id"]
-            isOneToOne: false
-            referencedRelation: "cart"
-            referencedColumns: ["item_id", "user_id"]
-          },
-          {
-            foreignKeyName: "order_items_order_id_fkey"
-            columns: ["order_id"]
-            isOneToOne: false
-            referencedRelation: "orders"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "order_items_user_id_item_id_fkey"
-            columns: ["user_id", "item_id"]
-            isOneToOne: false
-            referencedRelation: "cart"
-            referencedColumns: ["user_id", "item_id"]
           },
         ]
       }
