@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./contexts/AuthContext";
 import Cart from "./features/cart/Cart";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -14,7 +15,14 @@ function App() {
         <ItemInfoProvider>
           <Routes>
             <Route index element={<AppLayout />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>

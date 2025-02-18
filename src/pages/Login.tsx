@@ -42,8 +42,10 @@ function Login() {
       console.log(data);
       setError("");
       const currentUser = await getCurrentUser();
+      console.log(currentUser);
+
+      // localStorage.setItem('user')
       const userCart = await getUserCart(currentUser?.id);
-      console.log(userCart);
 
       dispatch(addCart({ id: userCart.id, userId: currentUser?.id }));
 

@@ -1,5 +1,12 @@
 import { User } from "@supabase/supabase-js";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { getCurrentUser } from "../services/apiAuth";
 
 type AuthContextType = {
   currentUser: User | null;
@@ -13,6 +20,17 @@ function AuthProvider({ children }: { children: ReactNode }) {
   function handleCurrentUser(user: User | null) {
     setCurrentUser(user);
   }
+
+  useEffect(function () {
+    async function getUser() {
+      const userData = await getCurrentUser();
+      console.log(userData);
+
+      setCurrentUser(userData);
+    }
+    getUser();
+  }, []);
+
   const value = { handleCurrentUser, currentUser };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
