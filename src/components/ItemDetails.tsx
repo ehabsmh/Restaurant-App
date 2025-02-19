@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { useEffect, useReducer, useState } from "react";
 import { useItemInfo } from "../contexts/ItemInfoContext";
 import ItemQuantity from "./ItemQuantity";
 import ItemSizes from "./ItemSizes";
-import supabase from "../services/supabase";
 import AddToCart from "../features/cart/AddToCart";
 import AddToFavorite from "../features/favorite/AddToFavorite";
 import { addItem, checkItemInCart } from "../services/apiCart";
@@ -11,32 +11,76 @@ import { getCart } from "../features/cart/CartSlice";
 import ItemIngredients from "./ItemIngredients";
 import ItemDescription from "./ItemDescription";
 
+type ItemDetailsInitState = {
+  quantity: number;
+  activeSizeId: number;
+  activeItemPrice: number;
+};
+
+export enum ActionType {
+  incQuantity = "incQuantity",
+  decQuantity = "decQuantity",
+  addVariant = "addVariant",
+  reset = "reset",
+}
+
+export interface Action {
+  type: ActionType;
+  payload?: { itemSizeId: number; itemPrice: number };
+}
+
+const initialState: ItemDetailsInitState = {
+  quantity: 1,
+  activeSizeId: 1,
+  activeItemPrice: 0,
+};
+
+const MAX_QUANTITY = 10;
+const MIN_QUANTITY = 1;
+
+function reducer(state: ItemDetailsInitState, action: Action) {
+  switch (action.type) {
+    case ActionType.incQuantity:
+      if (state.quantity === MAX_QUANTITY)
+        return { ...state, quantity: state.quantity };
+      return {
+        ...state,
+        quantity: state.quantity < 1 ? 1 : state.quantity + 1,
+      };
+
+    case ActionType.decQuantity:
+      if (state.quantity === MIN_QUANTITY)
+        return { ...state, quantity: state.quantity };
+
+      return {
+        ...state,
+        quantity: state.quantity < 1 ? state.quantity : state.quantity - 1,
+      };
+
+    case ActionType.addVariant:
+      return {
+        ...state,
+        activeSizeId: action.payload?.itemSizeId ?? state.activeSizeId,
+        activeItemPrice: action.payload?.itemPrice ?? state.activeItemPrice,
+      };
+
+    case ActionType.reset:
+      return initialState;
+
+    default:
+      return state;
+  }
+}
+
 function ItemDetails() {
-  const { activeItem } = useItemInfo();
-
   const [itemInCart, setItemInCart] = useState(false);
+  const [{ quantity, activeSizeId, activeItemPrice }, dispatch] = useReducer(
+    reducer,
+    initialState,
+  );
 
-  const [activeItemPrice, setActiveItemPrice] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-  const [activeSizeId, setActiveSizeId] = useState(1);
+  const { activeItem } = useItemInfo();
   const cartId = useSelector(getCart)?.id;
-
-  // See more & See less for description
-
-  function handleActiveItemPrice(price: number) {
-    setActiveItemPrice(price);
-  }
-  function handleQuantity(quantity: number) {
-    if (quantity < 1) setQuantity(1);
-    setQuantity(quantity);
-  }
-  function incQuantity() {
-    setQuantity((quantity) => quantity + 1);
-  }
-
-  function decQuantity() {
-    setQuantity((quantity) => (quantity > 1 ? quantity - 1 : quantity));
-  }
 
   async function addToCart() {
     const item = {
@@ -47,17 +91,19 @@ function ItemDetails() {
       quantity: quantity,
       price_per_quantity: quantity * activeItemPrice,
     };
+
     addItem(item);
   }
 
   useEffect(
     function () {
       async function itemExistsCheck() {
-        const isInCart = await checkItemInCart(activeItem?.id);
+        const isInCart = await checkItemInCart(activeItem!.id);
         setItemInCart(isInCart);
       }
 
       itemExistsCheck();
+      dispatch({ type: ActionType.reset });
     },
     [activeItem],
   );
@@ -79,24 +125,20 @@ function ItemDetails() {
         <ItemDescription activeItem={activeItem} />
 
         {!itemInCart && (
-          <ItemQuantity
-            incQuantity={incQuantity}
-            decQuantity={decQuantity}
-            onChange={handleQuantity}
-            quantity={quantity}
-          />
+          <ItemQuantity dispatch={dispatch} quantity={quantity} />
         )}
 
         {!itemInCart && (
           <ItemSizes
             itemId={activeItem.id}
-            handleActiveItemPrice={handleActiveItemPrice}
             activeSizeId={activeSizeId}
-            setActiveSizeId={setActiveSizeId}
+            dispatch={dispatch}
           />
         )}
         <div className="mt-10 flex w-[50%] justify-between">
-          {!itemInCart && <AddToCart addToCart={addToCart} />}
+          {!itemInCart && (
+            <AddToCart addToCart={addToCart} setItemInCart={setItemInCart} />
+          )}
           {itemInCart && (
             <p className="text-sm font-bold">Already in your cart</p>
           )}

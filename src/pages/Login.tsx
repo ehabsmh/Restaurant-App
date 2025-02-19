@@ -6,7 +6,7 @@ import { IUser } from "./Register";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../contexts/AuthContext";
 import { getCurrentUser } from "../services/apiAuth";
-import { getUserCart } from "../services/apiCart";
+import { getUserCart, getUserCartByUserId } from "../services/apiCart";
 import { useAppDispatch } from "../hooks/hooks";
 import { addCart } from "../features/cart/CartSlice";
 function Login() {
@@ -32,20 +32,16 @@ function Login() {
     e.preventDefault();
     if (!user.email || !user.password) setError("Missing email or password");
     try {
-      console.log(user);
-
       const { data, error } = await supabase.auth.signInWithPassword({
         email: user.email,
         password: user.password,
       });
       if (error) throw new Error("Incorrect email or password");
-      console.log(data);
       setError("");
       const currentUser = await getCurrentUser();
-      console.log(currentUser);
 
       // localStorage.setItem('user')
-      const userCart = await getUserCart(currentUser?.id);
+      const userCart = await getUserCartByUserId(currentUser?.id);
 
       dispatch(addCart({ id: userCart.id, userId: currentUser?.id }));
 

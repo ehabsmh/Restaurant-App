@@ -2,7 +2,7 @@ import { BiCartAdd } from "react-icons/bi";
 import { useSession } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function AddToCart({ addToCart }) {
+function AddToCart({ addToCart, setItemInCart }) {
   const { currentUser } = useSession();
   const navigate = useNavigate();
   return (
@@ -12,6 +12,7 @@ function AddToCart({ addToCart }) {
         onClick={() => {
           if (!currentUser) navigate("/login");
           addToCart();
+          setItemInCart(true);
         }}
         className="text-gradient-1 w-full cursor-pointer"
         size={30}

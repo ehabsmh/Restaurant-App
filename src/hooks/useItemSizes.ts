@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import supabase from "../services/supabase";
 
 interface IItemSize {
+  size_id: number;
   price: number;
-  sizes: { size: string };
+  size: { name: string };
 }
 
 type useItemSizesReturn = [IItemSize[], (itemId: number) => Promise<void>];
+
 function useItemSizes(): useItemSizesReturn {
   const [itemSizes, setItemSizes] = useState<IItemSize[]>([]);
 
-  async function fetchItemSizes(itemId: number) {
+  const fetchItemSizes = useCallback(async function fetchItemSizes(itemId: number) {
     try {
       const { data, error } = await supabase
         .from("item_sizes")
@@ -18,8 +20,8 @@ function useItemSizes(): useItemSizesReturn {
           `
   size_id,
   price,
-  sizes (
-    size
+  size:sizes (
+    name:size
   )
 `,
         )
@@ -31,7 +33,8 @@ function useItemSizes(): useItemSizesReturn {
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
     }
-  }
+  }, [])
+
 
   return [itemSizes, fetchItemSizes];
 }

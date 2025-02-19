@@ -24,7 +24,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(function () {
     async function getUser() {
       const userData = await getCurrentUser();
-      console.log(userData);
 
       setCurrentUser(userData);
     }

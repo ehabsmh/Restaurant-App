@@ -7,8 +7,8 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
   // const navigate = useNavigate();
   console.log(currentUser);
 
-  if (!currentUser) return <Navigate to="/login" />;
-  if (currentUser) return <>{children}</>;
+  if (currentUser?.role !== "authenticated") return <Navigate to="/login" />;
+  return <>{children}</>;
 }
 
 export default ProtectedRoute;
