@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
-import { useSession } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import AuthContext from "../contexts/AuthContext";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
-  const { currentUser } = useSession();
+  const { currentUser } = useAuth(AuthContext);
   // const navigate = useNavigate();
   console.log(currentUser);
 

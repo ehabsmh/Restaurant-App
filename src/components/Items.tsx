@@ -1,9 +1,10 @@
 import Item from "./Item";
-import { useItemInfo } from "../contexts/ItemInfoContext";
 import { useEffect, useState } from "react";
 import supabase from "../services/supabase";
 import Loader from "../ui/Loader";
 import SmallScreenCategories from "../ui/SmallScreenCategories";
+import useItemInfo from "../hooks/useItemInfo";
+import ItemInfoContext from "../contexts/ItemInfoContext";
 
 export interface IItems {
   id: number;
@@ -17,7 +18,7 @@ export interface IItems {
 }
 
 function Items() {
-  const { activeCategory, activeSubcategory } = useItemInfo();
+  const { activeCategory, activeSubcategory } = useItemInfo(ItemInfoContext);
   const [items, setItems] = useState<IItems[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");

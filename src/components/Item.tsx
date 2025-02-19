@@ -1,4 +1,5 @@
-import { useItemInfo } from "../contexts/ItemInfoContext";
+import ItemInfoContext from "../contexts/ItemInfoContext";
+import useItemInfo from "../hooks/useItemInfo";
 import { IItems } from "./Items";
 
 type ItemProps = {
@@ -6,7 +7,7 @@ type ItemProps = {
 };
 
 function Item({ item }: ItemProps) {
-  const { handleActiveItem, activeItem } = useItemInfo();
+  const { handleActiveItem, activeItem } = useItemInfo(ItemInfoContext);
   return (
     <div className="relative max-w-[250px] lg:w-full">
       <img

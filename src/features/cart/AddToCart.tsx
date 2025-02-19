@@ -1,9 +1,14 @@
 import { BiCartAdd } from "react-icons/bi";
-import { useSession } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import AuthContext from "../../contexts/AuthContext";
 
-function AddToCart({ addToCart, setItemInCart }) {
-  const { currentUser } = useSession();
+type AddToCartProps = {
+  addToCart: () => void;
+  setItemInCart: React.Dispatch<React.SetStateAction<boolean>>;
+};
+function AddToCart({ addToCart, setItemInCart }: AddToCartProps) {
+  const { currentUser } = useAuth(AuthContext);
   const navigate = useNavigate();
   return (
     <div className="">

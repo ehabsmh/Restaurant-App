@@ -1,12 +1,12 @@
 import Sidebar from "./Sidebar";
-import { useItemInfo } from "../contexts/ItemInfoContext";
 import Items from "../components/Items";
 import ItemDetails from "../components/ItemDetails";
 import Navbar from "./Navbar";
-import { useSession } from "../contexts/AuthContext";
+import useItemInfo from "../hooks/useItemInfo";
+import ItemInfoContext from "../contexts/ItemInfoContext";
 
 function AppLayout() {
-  const { activeItem } = useItemInfo();
+  const { activeItem } = useItemInfo(ItemInfoContext);
 
   return (
     <div className="h-[inherit] lg:flex lg:justify-between lg:gap-8">

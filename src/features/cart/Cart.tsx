@@ -3,21 +3,52 @@ import CartItem from "./CartItem";
 import { getItems, getUserCartByUserId } from "../../services/apiCart";
 import { useAppSelector } from "../../hooks/hooks";
 import { getCart } from "./CartSlice";
-import { useSession } from "../../contexts/AuthContext";
+import useAuth from "../../hooks/useAuth";
+import AuthContext from "../../contexts/AuthContext";
+
+export interface ICartItem {
+  cart_id: number;
+  created_at: string;
+  id: number;
+  item_id: number;
+  price: number | null;
+  price_per_quantity: number | null;
+  quantity: number;
+  size_id: number;
+  item: {
+    id: number;
+    image: string;
+    name: string;
+  };
+  size: {
+    id: number;
+    size: string;
+  };
+}
+
+interface ICart {
+  num_items: number | null;
+  total_price: number | null;
+  user_id: string;
+}
 
 function Cart() {
-  const [cartItems, setCartItems] = useState([]);
-  const [cart, setCart] = useState({});
-  const { currentUser } = useSession();
-  const cartId = useAppSelector(getCart).id;
-
-  async function fetchCart() {
-    const cart = await getUserCartByUserId(currentUser?.id);
-    setCart(cart);
-  }
+  const [cartItems, setCartItems] = useState<ICartItem[]>([]);
+  const [cart, setCart] = useState<ICart>({
+    num_items: 0,
+    total_price: 0,
+    user_id: "0",
+  });
+  const { currentUser } = useAuth(AuthContext);
+  const cartId = useAppSelector(getCart).id!;
 
   useEffect(
     function () {
+      async function fetchCart() {
+        const cart = await getUserCartByUserId(currentUser?.id);
+        setCart(cart);
+      }
+
       fetchCart();
     },
     [currentUser?.id, cartItems],
@@ -27,7 +58,6 @@ function Cart() {
     function () {
       async function fetchCartItems() {
         const items = await getItems(cartId);
-        console.log(items);
 
         setCartItems(items);
       }

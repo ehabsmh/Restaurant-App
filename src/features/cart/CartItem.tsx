@@ -8,8 +8,14 @@ import {
   deleteCartItem,
   incItemQuantity,
 } from "../../services/apiCart";
+import { ICartItem } from "./Cart";
 
-function CartItem({ cartItem, setCartItems }) {
+type CartItemProps = {
+  cartItem: ICartItem;
+  setCartItems: React.Dispatch<React.SetStateAction<ICartItem[]>>;
+};
+
+function CartItem({ cartItem, setCartItems }: CartItemProps) {
   const [itemSizes, fetchItemSizes] = useItemSizes();
 
   async function incQuantity() {
@@ -42,25 +48,30 @@ function CartItem({ cartItem, setCartItems }) {
     }
   }
 
-  async function changeSize(sizeId, sizeName) {
-    const { size_id, price } = await changeItemSize(
+  async function changeSize(sizeId: number, sizeName: string) {
+    const updatedItem = await changeItemSize(
       cartItem.item.id,
       cartItem.id,
       sizeId,
     );
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === cartItem.id
-          ? {
-              ...item,
-              price,
-              price_per_quantity: price * item.quantity,
-              size_id,
-              size: { id: sizeId, size: sizeName },
-            }
-          : item,
-      ),
-    );
+
+    if (updatedItem) {
+      const { size_id, price } = updatedItem;
+
+      setCartItems((items) =>
+        items.map((item) =>
+          item.id === cartItem.id
+            ? {
+                ...item,
+                price,
+                price_per_quantity: price * item.quantity,
+                size_id,
+                size: { id: sizeId, size: sizeName },
+              }
+            : item,
+        ),
+      );
+    }
   }
 
   async function deleteItem() {
@@ -73,7 +84,7 @@ function CartItem({ cartItem, setCartItems }) {
       fetchItemSizes(cartItem.item_id);
       // fetchCart();
     },
-    [cartItem],
+    [cartItem, fetchItemSizes],
   );
 
   return (
@@ -101,7 +112,7 @@ function CartItem({ cartItem, setCartItems }) {
               value={cartItem.size_id}
               onChange={(e) => {
                 changeSize(
-                  e.target.value,
+                  +e.target.value,
                   e.target.options[e.target.selectedIndex].text,
                 );
               }}

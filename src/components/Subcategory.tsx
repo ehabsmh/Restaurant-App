@@ -1,4 +1,5 @@
-import { useItemInfo } from "../contexts/ItemInfoContext";
+import ItemInfoContext from "../contexts/ItemInfoContext";
+import useItemInfo from "../hooks/useItemInfo";
 import { ISubcategory } from "./Subcategories";
 
 type SubcategoryProps = {
@@ -7,7 +8,7 @@ type SubcategoryProps = {
 
 function Subcategory({ subcategory }: SubcategoryProps) {
   const { activeSubcategory, handleActiveSubcategory, handleActiveItem } =
-    useItemInfo();
+    useItemInfo(ItemInfoContext);
 
   return (
     <li
@@ -18,7 +19,7 @@ function Subcategory({ subcategory }: SubcategoryProps) {
       className={`cursor-pointer ${activeSubcategory === subcategory.id ? "lg:bg-main-active/45 from-gradient-1 to-gradient-2 rounded-md bg-gradient-to-br lg:bg-none" : ""} mb-5 flex flex-col items-center justify-center p-5 lg:mb-10 lg:h-16 lg:w-16`}
     >
       <img
-        src={subcategory.icon}
+        src={subcategory.icon ?? ""}
         alt={subcategory.name}
         className="w-6 lg:w-9"
       />

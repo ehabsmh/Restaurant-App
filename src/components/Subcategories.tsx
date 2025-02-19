@@ -1,38 +1,31 @@
 import { useEffect, useState } from "react";
-import { useItemInfo } from "../contexts/ItemInfoContext";
 import Subcategory from "./Subcategory";
-import supabase from "../services/supabase";
 import Loader from "../ui/Loader";
+import { getSubCategories } from "../services/apiSubcategories";
+import useItemInfo from "../hooks/useItemInfo";
+import ItemInfoContext from "../contexts/ItemInfoContext";
 
 export interface ISubcategory {
   id: number;
   name: string;
   slug: string;
-  icon: string;
+  icon: string | null;
 }
 
 function Subcategories() {
   const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { activeCategory } = useItemInfo();
+  const { activeCategory } = useItemInfo(ItemInfoContext);
 
   useEffect(
     function () {
       async function fetchSubcategories() {
         setIsLoading(true);
         try {
-          const { data, error } = await supabase
-            .from("subcategories")
-            .select(
-              `id, name, icon,slug
-        `,
-            )
-            .eq("category_id", activeCategory);
+          const subcategories = await getSubCategories(activeCategory);
 
-          if (error) throw new Error(error.message);
-
-          setSubcategories(data);
+          setSubcategories(subcategories);
         } catch (error) {
           if (error instanceof Error) setError(error.message);
         } finally {

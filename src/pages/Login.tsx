@@ -4,11 +4,12 @@ import supabase from "../services/supabase";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { IUser } from "./Register";
 import { useNavigate } from "react-router-dom";
-import { useSession } from "../contexts/AuthContext";
 import { getCurrentUser } from "../services/apiAuth";
 import { getUserCart, getUserCartByUserId } from "../services/apiCart";
 import { useAppDispatch } from "../hooks/hooks";
 import { addCart } from "../features/cart/CartSlice";
+import useAuth from "../hooks/useAuth";
+import AuthContext from "../contexts/AuthContext";
 function Login() {
   const [error, setError] = useState("");
   const [user, setUser] = useState<IUser>({
@@ -19,7 +20,7 @@ function Login() {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  const { handleCurrentUser } = useSession();
+  const { handleCurrentUser } = useAuth(AuthContext);
 
   function handleFormData(e: ChangeEvent<HTMLInputElement>) {
     const userCpy = { ...user };

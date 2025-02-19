@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { useSession } from "../contexts/AuthContext";
+import AuthContext from "../contexts/AuthContext";
 import { logout } from "../services/apiAuth";
 import { BiCart } from "react-icons/bi";
+import useAuth from "../hooks/useAuth";
 
 function Navbar() {
-  const { currentUser, handleCurrentUser } = useSession();
+  const { currentUser, handleCurrentUser } = useAuth(AuthContext);
 
   return (
     <div className="flex max-h-[10vh] w-full items-center justify-between bg-white p-3">

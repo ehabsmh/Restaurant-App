@@ -38,34 +38,34 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          num_items: number | null
-          total_price: number | null
+          num_items: number
+          total_price: number
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: number
-          num_items?: number | null
-          total_price?: number | null
+          num_items?: number
+          total_price?: number
           user_id: string
         }
         Update: {
           created_at?: string
           id?: number
-          num_items?: number | null
-          total_price?: number | null
+          num_items?: number
+          total_price?: number
           user_id?: string
         }
         Relationships: []
       }
-      cart_item: {
+      cart_items: {
         Row: {
           cart_id: number
           created_at: string
           id: number
           item_id: number
-          price: number | null
-          price_per_quantity: number | null
+          price: number
+          price_per_quantity: number
           quantity: number
           size_id: number
         }
@@ -74,8 +74,8 @@ export type Database = {
           created_at?: string
           id?: number
           item_id: number
-          price?: number | null
-          price_per_quantity?: number | null
+          price: number
+          price_per_quantity: number
           quantity?: number
           size_id: number
         }
@@ -84,8 +84,8 @@ export type Database = {
           created_at?: string
           id?: number
           item_id?: number
-          price?: number | null
-          price_per_quantity?: number | null
+          price?: number
+          price_per_quantity?: number
           quantity?: number
           size_id?: number
         }

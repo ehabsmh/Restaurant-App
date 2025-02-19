@@ -1,7 +1,7 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { IItems } from "../components/Items";
 
-interface ItemInfoContextType {
+export interface ItemInfoContextType {
   activeCategory: number;
   handleActiveCategory: (id: number) => void;
   activeSubcategory: number;
@@ -44,12 +44,5 @@ function ItemInfoProvider({ children }: { children: ReactNode }) {
   );
 }
 
-function useItemInfo() {
-  const context = useContext(ItemInfoContext);
-  if (!context)
-    throw new Error("ItemInfoContext were used outside the ItemInfoProvider");
-
-  return context;
-}
-
-export { ItemInfoProvider, useItemInfo };
+export { ItemInfoProvider };
+export default ItemInfoContext;

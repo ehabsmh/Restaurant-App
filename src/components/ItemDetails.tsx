@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
 import { useEffect, useReducer, useState } from "react";
-import { useItemInfo } from "../contexts/ItemInfoContext";
 import ItemQuantity from "./ItemQuantity";
 import ItemSizes from "./ItemSizes";
 import AddToCart from "../features/cart/AddToCart";
@@ -10,6 +9,8 @@ import { useSelector } from "react-redux";
 import { getCart } from "../features/cart/CartSlice";
 import ItemIngredients from "./ItemIngredients";
 import ItemDescription from "./ItemDescription";
+import useItemInfo from "../hooks/useItemInfo";
+import ItemInfoContext from "../contexts/ItemInfoContext";
 
 type ItemDetailsInitState = {
   quantity: number;
@@ -79,20 +80,22 @@ function ItemDetails() {
     initialState,
   );
 
-  const { activeItem } = useItemInfo();
+  const { activeItem } = useItemInfo(ItemInfoContext);
   const cartId = useSelector(getCart)?.id;
 
   async function addToCart() {
-    const item = {
-      item_id: activeItem?.id,
-      cart_id: cartId,
-      size_id: activeSizeId,
-      price: activeItemPrice,
-      quantity: quantity,
-      price_per_quantity: quantity * activeItemPrice,
-    };
+    if (cartId && activeItem?.id) {
+      const item = {
+        cart_id: cartId,
+        item_id: activeItem.id,
+        size_id: activeSizeId,
+        price: activeItemPrice,
+        quantity: quantity,
+        price_per_quantity: quantity * activeItemPrice,
+      };
 
-    addItem(item);
+      addItem(item);
+    }
   }
 
   useEffect(

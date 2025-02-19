@@ -12,7 +12,7 @@ type useItemSizesReturn = [IItemSize[], (itemId: number) => Promise<void>];
 function useItemSizes(): useItemSizesReturn {
   const [itemSizes, setItemSizes] = useState<IItemSize[]>([]);
 
-  const fetchItemSizes = useCallback(async function fetchItemSizes(itemId: number) {
+  const fetchItemSizes = useCallback(async function (itemId: number) {
     try {
       const { data, error } = await supabase
         .from("item_sizes")

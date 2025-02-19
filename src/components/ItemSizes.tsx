@@ -2,11 +2,6 @@ import { useEffect } from "react";
 import useItemSizes from "../hooks/useItemSizes";
 import { Action, ActionType } from "./ItemDetails";
 
-// interface IItemSize {
-//   price: number;
-//   sizes: { size: string };
-// }
-
 type ItemSizesProps = {
   itemId: number;
   activeSizeId: number;
@@ -14,27 +9,28 @@ type ItemSizesProps = {
 };
 function ItemSizes({ itemId, activeSizeId, dispatch }: ItemSizesProps) {
   const [itemSizes, fetchItemSizes] = useItemSizes();
-  const defaultItemSize = itemSizes.at(0);
-  console.log(itemSizes);
 
   useEffect(
     function () {
       fetchItemSizes(itemId);
-      dispatch({
-        type: ActionType.addVariant,
-        payload: {
-          itemPrice: defaultItemSize?.price,
-          itemSizeId: defaultItemSize?.size_id,
-        },
-      });
     },
-    [
-      itemId,
-      fetchItemSizes,
-      dispatch,
-      defaultItemSize?.price,
-      defaultItemSize?.size_id,
-    ],
+    [itemId, fetchItemSizes],
+  );
+
+  useEffect(
+    function () {
+      if (itemSizes.length) {
+        const defaultItemSize = itemSizes.at(0)!;
+        dispatch({
+          type: ActionType.addVariant,
+          payload: {
+            itemPrice: defaultItemSize.price,
+            itemSizeId: defaultItemSize.size_id,
+          },
+        });
+      }
+    },
+    [dispatch, itemSizes],
   );
 
   return (

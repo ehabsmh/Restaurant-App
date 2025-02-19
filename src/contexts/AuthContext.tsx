@@ -1,14 +1,8 @@
 import { User } from "@supabase/supabase-js";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { getCurrentUser } from "../services/apiAuth";
 
-type AuthContextType = {
+export type AuthContextType = {
   currentUser: User | null;
   handleCurrentUser: (user: User | null) => void;
 };
@@ -34,12 +28,5 @@ function AuthProvider({ children }: { children: ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-function useSession() {
-  const context = useContext(AuthContext);
-  if (!context)
-    throw new Error("AuthContext were used outside the AuthProvider");
-
-  return context;
-}
-
-export { AuthProvider, useSession };
+export { AuthProvider };
+export default AuthContext;
