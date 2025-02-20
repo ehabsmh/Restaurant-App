@@ -6,14 +6,14 @@ const override: CSSProperties = {
   margin: "0 auto",
 };
 
-function Loader({ color }: { color: string }) {
+function Loader({ color, size = 30 }: { color: string; size: number }) {
   return (
     <div className="sweet-loading">
       <ClipLoader
         color={color}
         loading={true}
         cssOverride={override}
-        size={30}
+        size={size}
         aria-label="Loading Spinner"
         data-testid="loader"
       />

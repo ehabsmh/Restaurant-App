@@ -5,12 +5,11 @@ import ItemSizes from "./ItemSizes";
 import AddToCart from "../features/cart/AddToCart";
 import AddToFavorite from "../features/favorite/AddToFavorite";
 import { addItem, checkItemInCart } from "../services/apiCart";
-import { useSelector } from "react-redux";
-import { getCart } from "../features/cart/CartSlice";
 import ItemIngredients from "./ItemIngredients";
 import ItemDescription from "./ItemDescription";
 import useItemInfo from "../hooks/useItemInfo";
 import ItemInfoContext from "../contexts/ItemInfoContext";
+import useAuth from "../hooks/useAuth";
 
 type ItemDetailsInitState = {
   quantity: number;
@@ -81,12 +80,16 @@ function ItemDetails() {
   );
 
   const { activeItem } = useItemInfo(ItemInfoContext);
-  const cartId = useSelector(getCart)?.id;
+  const { userCartId } = useAuth();
+
+  // const cartId = useSelector(getCart)?.id;
 
   async function addToCart() {
-    if (cartId && activeItem?.id) {
+    if (userCartId && activeItem?.id) {
+      console.log(userCartId, activeItem?.id);
+
       const item = {
-        cart_id: cartId,
+        cart_id: userCartId,
         item_id: activeItem.id,
         size_id: activeSizeId,
         price: activeItemPrice,
@@ -101,14 +104,16 @@ function ItemDetails() {
   useEffect(
     function () {
       async function itemExistsCheck() {
-        const isInCart = await checkItemInCart(activeItem!.id);
-        setItemInCart(isInCart);
+        if (userCartId && activeItem) {
+          const isInCart = await checkItemInCart(userCartId, activeItem.id);
+          setItemInCart(isInCart);
+        }
       }
 
       itemExistsCheck();
       dispatch({ type: ActionType.reset });
     },
-    [activeItem],
+    [activeItem, userCartId],
   );
 
   if (!activeItem) return null;

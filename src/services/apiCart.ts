@@ -6,11 +6,10 @@ export async function getUserCartByUserId(userId: string) {
     .from("cart")
     .select("*")
     .eq("user_id", userId)
-    .single();
+    .maybeSingle();
 
   if (errorSelect) throw new Error(errorSelect.message);
   if (cart) {
-    console.log(cart);
     return cart;
   }
 
@@ -20,7 +19,6 @@ export async function getUserCartByUserId(userId: string) {
     .select()
     .single();
 
-  console.log(data);
 
   if (errorInsert) throw new Error(errorInsert.message);
   return data;
@@ -36,7 +34,6 @@ export async function getUserCartByCartId(cartId: number) {
 
   if (errorSelect) throw new Error(errorSelect.message);
 
-  console.log(cart);
   return cart;
 }
 
@@ -76,6 +73,7 @@ export async function addItem(item: itemType) {
     .single();
   if (cartItemError) throw new Error(cartItemError.message);
 
+  // update user cart
   const cart = await getUserCartByCartId(item.cart_id);
 
   await updateCart(item.cart_id, {
@@ -161,7 +159,6 @@ export async function changeItemSize(
     .single();
 
   if (error) throw new Error(error.message);
-  console.log(itemSizes);
 
   const { data: cartItem2, error: errorCartItems } = await supabase
     .from("cart_items")
@@ -171,7 +168,6 @@ export async function changeItemSize(
 
   if (errorCartItems) throw new Error(errorCartItems.message);
 
-  console.log(cartItem2, cartItem2.cart_id);
 
   const cart = await getUserCartByCartId(cartItem2.cart_id);
 
@@ -205,16 +201,15 @@ export async function changeItemSize(
     .select()
     .single();
 
-  console.log(data);
 
   return cartItem;
 }
 
-export async function checkItemInCart(itemId: number) {
+export async function checkItemInCart(cartId: number, itemId: number) {
   const { data, error } = await supabase
     .from("cart_items")
     .select("*")
-    .eq("item_id", itemId)
+    .eq("cart_id", cartId).eq('item_id', itemId)
     .maybeSingle();
 
   if (error) throw new Error(error.message);

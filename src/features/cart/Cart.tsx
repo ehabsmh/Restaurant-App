@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import { getItems, getUserCartByUserId } from "../../services/apiCart";
-import { useAppSelector } from "../../hooks/hooks";
-import { getCart } from "./CartSlice";
 import useAuth from "../../hooks/useAuth";
-import AuthContext from "../../contexts/AuthContext";
 
 export interface ICartItem {
   cart_id: number;
@@ -39,32 +36,34 @@ function Cart() {
     total_price: 0,
     user_id: "0",
   });
-  const { currentUser } = useAuth(AuthContext);
-  const cartId = useAppSelector(getCart).id!;
+  const { currentUser, userCartId } = useAuth();
 
   useEffect(
     function () {
       async function fetchCart() {
-        const cart = await getUserCartByUserId(currentUser?.id);
+        if (!currentUser) return;
+        const cart = await getUserCartByUserId(currentUser.id);
         setCart(cart);
       }
 
       fetchCart();
     },
-    [currentUser?.id, cartItems],
+    [currentUser, cartItems],
   );
 
   useEffect(
     function () {
       async function fetchCartItems() {
-        const items = await getItems(cartId);
+        if (userCartId) {
+          const items = await getItems(userCartId);
 
-        setCartItems(items);
+          setCartItems(items);
+        }
       }
 
       fetchCartItems();
     },
-    [cartId],
+    [userCartId],
   );
   return (
     <div className="p-5">

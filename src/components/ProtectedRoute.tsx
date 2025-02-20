@@ -1,14 +1,19 @@
 import { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import AuthContext from "../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
+import Loader from "../ui/Loader";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
-  const { currentUser } = useAuth(AuthContext);
-  // const navigate = useNavigate();
-  console.log(currentUser);
+  const { isAuthenticated, currentUser } = useAuth();
 
-  if (currentUser?.role !== "authenticated") return <Navigate to="/login" />;
+  if (currentUser === null)
+    return (
+      <div className="flex h-[90vh] items-center justify-center">
+        <Loader color="#ed4b74" size={70} />
+      </div>
+    ); // Prevent redirect during auth check
+
+  if (!isAuthenticated) return <Navigate to="/login" />;
   return <>{children}</>;
 }
 

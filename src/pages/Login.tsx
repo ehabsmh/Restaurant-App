@@ -5,11 +5,8 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { IUser } from "./Register";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser } from "../services/apiAuth";
-import { getUserCart, getUserCartByUserId } from "../services/apiCart";
-import { useAppDispatch } from "../hooks/hooks";
-import { addCart } from "../features/cart/CartSlice";
+import { getUserCartByUserId } from "../services/apiCart";
 import useAuth from "../hooks/useAuth";
-import AuthContext from "../contexts/AuthContext";
 function Login() {
   const [error, setError] = useState("");
   const [user, setUser] = useState<IUser>({
@@ -17,10 +14,8 @@ function Login() {
     password: "",
   });
 
-  const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
-  const { handleCurrentUser } = useAuth(AuthContext);
+  const { handleCurrentUser, handleUserCartId } = useAuth();
 
   function handleFormData(e: ChangeEvent<HTMLInputElement>) {
     const userCpy = { ...user };
@@ -38,15 +33,19 @@ function Login() {
         password: user.password,
       });
       if (error) throw new Error("Incorrect email or password");
+      console.log(data);
+
       setError("");
+
       const currentUser = await getCurrentUser();
 
-      // localStorage.setItem('user')
-      const userCart = await getUserCartByUserId(currentUser?.id);
+      if (currentUser) {
+        const userCart = await getUserCartByUserId(currentUser.id);
 
-      dispatch(addCart({ id: userCart.id, userId: currentUser?.id }));
+        handleUserCartId(userCart.id);
+        handleCurrentUser(currentUser);
+      }
 
-      handleCurrentUser(currentUser);
       navigate("/", { replace: true });
     } catch (error) {
       if (error instanceof Error) setError(error.message);

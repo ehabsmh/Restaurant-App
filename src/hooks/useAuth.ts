@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { AuthContextType } from "../contexts/AuthContext";
+import AuthContext from "../contexts/AuthContext";
 
-function useAuth(AuthContext: React.Context<AuthContextType | null>) {
+function useAuth() {
   const context = useContext(AuthContext);
   if (!context)
     throw new Error("AuthContext were used outside the AuthProvider");
