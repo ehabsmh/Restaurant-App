@@ -8,7 +8,6 @@ import { addItem, checkItemInCart } from "../services/apiCart";
 import ItemIngredients from "./ItemIngredients";
 import ItemDescription from "./ItemDescription";
 import useItemInfo from "../hooks/useItemInfo";
-import ItemInfoContext from "../contexts/ItemInfoContext";
 import useAuth from "../hooks/useAuth";
 
 type ItemDetailsInitState = {
@@ -79,15 +78,11 @@ function ItemDetails() {
     initialState,
   );
 
-  const { activeItem } = useItemInfo(ItemInfoContext);
+  const { activeItem } = useItemInfo();
   const { userCartId } = useAuth();
-
-  // const cartId = useSelector(getCart)?.id;
 
   async function addToCart() {
     if (userCartId && activeItem?.id) {
-      console.log(userCartId, activeItem?.id);
-
       const item = {
         cart_id: userCartId,
         item_id: activeItem.id,

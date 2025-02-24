@@ -1,4 +1,3 @@
-import ItemInfoContext from "../contexts/ItemInfoContext";
 import useItemInfo from "../hooks/useItemInfo";
 import { ICategory } from "./Categories";
 
@@ -7,7 +6,7 @@ type CategoryProps = {
 };
 
 function Category({ category }: CategoryProps) {
-  const { activeCategory, handleActiveCategory } = useItemInfo(ItemInfoContext);
+  const { activeCategory, handleActiveCategory } = useItemInfo();
 
   return (
     <li

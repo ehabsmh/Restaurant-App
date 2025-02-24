@@ -3,7 +3,6 @@ import Subcategory from "./Subcategory";
 import Loader from "../ui/Loader";
 import { getSubCategories } from "../services/apiSubcategories";
 import useItemInfo from "../hooks/useItemInfo";
-import ItemInfoContext from "../contexts/ItemInfoContext";
 
 export interface ISubcategory {
   id: number;
@@ -16,7 +15,7 @@ function Subcategories() {
   const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { activeCategory } = useItemInfo(ItemInfoContext);
+  const { activeCategory } = useItemInfo();
 
   useEffect(
     function () {

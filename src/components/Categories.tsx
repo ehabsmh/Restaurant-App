@@ -20,7 +20,6 @@ function Categories() {
     setIsLoading(true);
     try {
       const categories = await getCategories();
-
       setCategories(categories);
     } catch (error) {
       if (error instanceof Error) setError(error.message);

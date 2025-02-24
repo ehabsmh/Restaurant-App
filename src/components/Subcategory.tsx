@@ -1,4 +1,3 @@
-import ItemInfoContext from "../contexts/ItemInfoContext";
 import useItemInfo from "../hooks/useItemInfo";
 import { ISubcategory } from "./Subcategories";
 
@@ -8,7 +7,7 @@ type SubcategoryProps = {
 
 function Subcategory({ subcategory }: SubcategoryProps) {
   const { activeSubcategory, handleActiveSubcategory, handleActiveItem } =
-    useItemInfo(ItemInfoContext);
+    useItemInfo();
 
   return (
     <li
