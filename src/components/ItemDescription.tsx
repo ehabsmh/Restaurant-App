@@ -6,9 +6,10 @@ type ItemDescriptionProps = {
 };
 function ItemDescription({ activeItem }: ItemDescriptionProps) {
   const [fullDescription, setFullDescription] = useState(false);
-  const itemDescription = !fullDescription
-    ? activeItem?.description?.split(" ").slice(0, 5).join(" ") + "..."
-    : activeItem?.description;
+  const itemDescription =
+    !fullDescription && activeItem?.description
+      ? activeItem.description.split(" ").slice(0, 5).join(" ") + "..."
+      : activeItem?.description;
 
   useEffect(
     function () {
@@ -16,6 +17,10 @@ function ItemDescription({ activeItem }: ItemDescriptionProps) {
     },
     [activeItem],
   );
+
+  console.log(itemDescription);
+
+  if (!itemDescription) return null;
   return (
     <div className="flex max-w-[400px] items-center self-start">
       <p className="text-main-inactive">
