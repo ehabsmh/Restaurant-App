@@ -6,7 +6,7 @@ const override: CSSProperties = {
   margin: "0 auto",
 };
 
-function Loader({ color, size = 30 }: { color: string; size: number }) {
+function Loader({ color, size = 30 }: { color: string; size?: number }) {
   return (
     <div className="sweet-loading">
       <ClipLoader
