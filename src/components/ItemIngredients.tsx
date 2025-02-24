@@ -30,6 +30,9 @@ function ItemIngredients({ activeItem }: ItemIngredientsProps) {
     },
     [activeItem],
   );
+
+  if (!ingredients) return null;
+
   return (
     <div className="flex max-w-[400px] items-center self-start">
       <p className="text-main-inactive">
