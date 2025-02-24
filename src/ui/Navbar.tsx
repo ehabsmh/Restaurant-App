@@ -4,7 +4,7 @@ import { BiCart } from "react-icons/bi";
 import useAuth from "../hooks/useAuth";
 
 function Navbar() {
-  const { currentUser, handleCurrentUser } = useAuth();
+  const { isAuthenticated, handleCurrentUser } = useAuth();
 
   return (
     <div className="flex max-h-[10vh] w-full items-center justify-between bg-white p-3">
@@ -13,13 +13,13 @@ function Navbar() {
         <p className="text-sm">Cak Benu Food & Beverages</p>
       </div>
 
-      {!currentUser && (
+      {!isAuthenticated && (
         <div>
           <Link to="/login">Login</Link>
         </div>
       )}
 
-      {currentUser && (
+      {isAuthenticated && (
         <div className="flex items-center gap-14">
           <div>
             <Link to="/cart">
