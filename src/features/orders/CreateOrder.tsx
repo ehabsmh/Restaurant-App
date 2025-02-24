@@ -14,22 +14,24 @@ function CreateOrder({ cart, setCart, setCartItems }: CreateOrderProps) {
 
   async function order() {
     try {
-      const { id: orderId } = await createOrder(currentUser?.id);
-      console.log(orderId);
+      if (currentUser && userCartId) {
+        const { id: orderId } = await createOrder(currentUser.id);
+        console.log(orderId);
 
-      await addOrderItems(userCartId, orderId);
-      setCartItems([]);
-      setCart(null);
-      toast.success(
-        "Order is submitted and will be delivered to you in a short time.",
-      );
+        await addOrderItems(userCartId, orderId);
+        setCartItems([]);
+        setCart(null);
+        toast.success(
+          "Order is submitted and will be delivered to you in a short time.",
+        );
+      }
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
   }
 
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center justify-center gap-5">
       <div className="h-full w-px bg-gray-300"></div>
       <div>
         <div className="flex items-center justify-between">
