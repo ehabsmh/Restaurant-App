@@ -82,64 +82,59 @@ function CartItem({ cartItem, setCartItems }: CartItemProps) {
   useEffect(
     function () {
       fetchItemSizes(cartItem.item_id);
-      // fetchCart();
     },
     [cartItem, fetchItemSizes],
   );
 
   return (
-    <>
-      <div className="mb-6 grid grid-cols-5 items-center gap-10 rounded-md p-5">
-        <>
-          <div className="flex items-center gap-5">
-            <BiTrash
-              size={25}
-              className="text-gradient-2 cursor-pointer duration-300 hover:rotate-180"
-              onClick={deleteItem}
-            />
-            <img
-              src={cartItem.item.image}
-              className="h-[80px] w-[90px] rounded-md object-cover"
-              alt=""
-            />
-          </div>
-          <div>
-            <p>{cartItem.item.name}</p>
-            <p>@ ${cartItem.price}</p>
-          </div>
-
-          {itemSizes.length ? (
-            <select
-              className="w-fit p-3 outline-0"
-              name=""
-              id=""
-              value={cartItem.size_id}
-              onChange={(e) => {
-                changeSize(
-                  +e.target.value,
-                  e.target.options[e.target.selectedIndex].text,
-                );
-              }}
-            >
-              {itemSizes.map((size, i) => (
-                <option key={i} value={size.size_id}>
-                  {size.size.name}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <div></div>
-          )}
-
-          <ItemQuantity
-            quantity={cartItem.quantity}
-            incQuantity={incQuantity}
-            decQuantity={decQuantity}
-          />
-          <p>${cartItem.price_per_quantity}</p>
-        </>
+    <div className="mb-6 grid grid-cols-5 items-center gap-10 rounded-md p-5">
+      <div className="flex items-center gap-5">
+        <BiTrash
+          size={25}
+          className="text-gradient-2 cursor-pointer duration-300 hover:rotate-180"
+          onClick={deleteItem}
+        />
+        <img
+          src={cartItem.item.image}
+          className="h-[80px] w-[90px] rounded-md object-cover"
+          alt=""
+        />
       </div>
-    </>
+      <div>
+        <p>{cartItem.item.name}</p>
+        <p>@ ${cartItem.price}</p>
+      </div>
+
+      {itemSizes.length ? (
+        <select
+          className="w-fit cursor-pointer p-3 outline-0"
+          name=""
+          id=""
+          value={cartItem.size_id}
+          onChange={(e) => {
+            changeSize(
+              +e.target.value,
+              e.target.options[e.target.selectedIndex].text,
+            );
+          }}
+        >
+          {itemSizes.map((size, i) => (
+            <option key={i} value={size.size_id}>
+              {size.size.name}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <div></div>
+      )}
+
+      <ItemQuantity
+        quantity={cartItem.quantity}
+        incQuantity={incQuantity}
+        decQuantity={decQuantity}
+      />
+      <p>${cartItem.price_per_quantity}</p>
+    </div>
   );
 }
 

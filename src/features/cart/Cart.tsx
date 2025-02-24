@@ -4,6 +4,7 @@ import { getItems, getUserCartByUserId } from "../../services/apiCart";
 import useAuth from "../../hooks/useAuth";
 import CreateOrder from "../orders/CreateOrder";
 import { ToastContainer } from "react-toastify";
+import Loader from "../../ui/Loader";
 
 export interface ICartItem {
   cart_id: number;
@@ -34,6 +35,7 @@ export interface ICart {
 function Cart() {
   const [cartItems, setCartItems] = useState<ICartItem[]>([]);
   const [cart, setCart] = useState<ICart | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { currentUser, userCartId } = useAuth();
 
   useEffect(
@@ -53,9 +55,11 @@ function Cart() {
     function () {
       async function fetchCartItems() {
         if (userCartId) {
+          setIsLoading(true);
           const items = await getItems(userCartId);
 
           setCartItems(items);
+          setIsLoading(false);
         }
       }
 
@@ -69,9 +73,10 @@ function Cart() {
       <div className="mb-8">
         <h3 className="text-secondary text-3xl font-bold">Your cart</h3>
       </div>
-      {cartItems.length ? (
+      {isLoading && <Loader color="#ed4b74" />}
+      {!isLoading && cartItems.length ? (
         <div className="grid h-[80vh] grid-cols-3 gap-20">
-          <div className="col-span-2">
+          <div className="col-span-2 overflow-auto">
             {cartItems.map((cartItem, i) => (
               <CartItem
                 key={i}
@@ -88,7 +93,7 @@ function Cart() {
           />
         </div>
       ) : (
-        <p>No items in your cart</p>
+        !isLoading && <p>No items in your cart</p>
       )}
     </div>
   );
