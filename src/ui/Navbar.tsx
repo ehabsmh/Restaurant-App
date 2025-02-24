@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { logout } from "../services/apiAuth";
 import { BiCart } from "react-icons/bi";
 import useAuth from "../hooks/useAuth";
+import { GrLogout } from "react-icons/gr";
 
 function Navbar() {
-  const { isAuthenticated, handleCurrentUser } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="flex max-h-[10vh] w-full items-center justify-between bg-white p-3">
@@ -21,19 +21,27 @@ function Navbar() {
 
       {isAuthenticated && (
         <div className="flex items-center gap-14">
-          <div>
-            <Link to="/cart">
-              <BiCart size={20} className="text-gradient-1" />
+          <div className="group flex cursor-pointer flex-col items-center justify-center text-sm">
+            <Link
+              to="/cart"
+              className="group-hover:text-gradient-2 text-gradient-1 duration-300"
+            >
+              <BiCart
+                size={20}
+                className="text-gradient-1 group-hover:text-gradient-2 duration-300"
+              />
               Cart
             </Link>
           </div>
+
           <Link
             to="/login"
-            onClick={() => {
-              logout();
-              handleCurrentUser(null);
-            }}
+            className="hover:text-gradient-2 group flex cursor-pointer flex-col items-center justify-center text-sm duration-300"
           >
+            <GrLogout
+              size={20}
+              className="group-hover:text-gradient-2 duration-300"
+            />
             logout
           </Link>
         </div>

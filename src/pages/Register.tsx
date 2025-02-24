@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import supabase from "../services/supabase";
 import RegisterForm from "./RegisterForm";
 import { toast } from "react-toastify";
+import { createUserProfile } from "../services/apiProfiles";
 
 export interface IUser {
   email: string;
@@ -37,19 +38,7 @@ function Register() {
       if (error) throw new Error(error.message);
       console.log(data);
       if (data.user) {
-        const { data: profileData, error } = await supabase
-          .from("profiles")
-          .insert([
-            {
-              user_id: data.user.id,
-              first_name: user.firstName || "",
-              last_name: user.lastName || "",
-              address: user.address || "",
-            },
-          ])
-          .select();
-        if (error) throw new Error(error.message);
-        console.log(profileData);
+        await createUserProfile(data.user.id, user);
         toast.success(
           "Account successfully created! Please verify your account from your email address.",
         );

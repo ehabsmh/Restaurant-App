@@ -18,7 +18,7 @@ function LoginForm({ login, error, handleFormData }: LoginFormProps) {
             <span className="login100-form-title p-b-53">Sign In With</span>
             <div
               onClick={googleOAuthLogin}
-              className="btn-google mx-auto mb-10 flex justify-center"
+              className="btn-google mx-auto mb-10 flex cursor-pointer justify-center"
             >
               <FaGoogle />
             </div>

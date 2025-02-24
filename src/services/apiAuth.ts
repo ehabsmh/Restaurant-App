@@ -17,7 +17,12 @@ export async function logout() {
 }
 
 export async function googleOAuthLogin() {
-  await supabase.auth.signInWithOAuth({
+  const { data } = await supabase.auth.signInWithOAuth({
     provider: "google",
   });
+  console.log(data);
+  // const { data: { user } } = await supabase.auth.getUser();
+  // if (data && user) {
+  //   await createUserProfile(user?.id, user.user_metadata);
+  // }
 }
