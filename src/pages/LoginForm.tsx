@@ -1,7 +1,8 @@
-import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
 import { ChangeEvent, FormEvent } from "react";
+import { googleOAuthLogin } from "../services/apiAuth";
 type LoginFormProps = {
   login: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   error: string;
@@ -15,14 +16,11 @@ function LoginForm({ login, error, handleFormData }: LoginFormProps) {
           <form onSubmit={login} className="login100-form validate-form">
             {error && <p className="mb-10 text-center text-red-500">{error}</p>}
             <span className="login100-form-title p-b-53">Sign In With</span>
-            <div className="mb-10 flex justify-between">
-              <a href="#" className="btn-face m-b-20">
-                <FaFacebook />
-              </a>
-
-              <a href="#" className="btn-google m-b-20">
-                <FaGoogle />
-              </a>
+            <div
+              onClick={googleOAuthLogin}
+              className="btn-google mx-auto mb-10 flex justify-center"
+            >
+              <FaGoogle />
             </div>
 
             <div className="p-t-31 p-b-9">
