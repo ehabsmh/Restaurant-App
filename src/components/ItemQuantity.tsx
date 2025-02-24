@@ -14,7 +14,7 @@ function ItemQuantity({
   decQuantity,
 }: ItemQuantityProps) {
   return (
-    <div className="items-between border-gradient-1 flex justify-between rounded-md border bg-white">
+    <div className="items-between border-gradient-1 flex w-fit rounded-md border bg-white">
       <input
         type="text"
         value={quantity}
