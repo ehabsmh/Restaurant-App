@@ -9,6 +9,7 @@ export type AuthContextType = {
   userCartId: number | null;
   handleCurrentUser: (user: User | null) => void;
   handleUserCartId: (cartId: number) => void;
+  isLoading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -16,10 +17,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 function AuthProvider({ children }: { children: ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [userCartId, setUserCartId] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const isAuthenticated = currentUser?.role === "authenticated" || false;
-  console.log(isAuthenticated);
+  const [isLoading, setIsLoading] = useState(true);
 
   function handleUserCartId(cartId: number) {
     setUserCartId(cartId);
@@ -29,23 +27,22 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setCurrentUser(user);
   }
 
-  useEffect(
-    function () {
-      async function getUser() {
-        setIsLoading(true);
-        const userData = await getCurrentUser();
-        if (userData) {
-          const userCart = await getUserCartByUserId(userData?.id);
-          setUserCartId(userCart?.id);
-          setCurrentUser(userData);
-        }
-
-        setIsLoading(false);
+  useEffect(function () {
+    async function getUser() {
+      setIsLoading(true);
+      const userData = await getCurrentUser();
+      if (userData) {
+        const userCart = await getUserCartByUserId(userData?.id);
+        setUserCartId(userCart?.id);
+        setCurrentUser(userData);
       }
-      getUser();
-    },
-    [isAuthenticated],
-  );
+
+      setIsLoading(false);
+    }
+    getUser();
+  }, []);
+
+  const isAuthenticated = currentUser?.role === "authenticated";
 
   const value = {
     handleCurrentUser,
