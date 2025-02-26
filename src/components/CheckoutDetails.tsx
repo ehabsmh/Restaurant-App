@@ -1,14 +1,18 @@
 import { FormEvent, useEffect, useState } from "react";
-import {
-  createUserProfile,
-  getUserProfile,
-  updateUserProfile,
-} from "../services/apiProfiles";
+import { getUserProfile, updateUserProfile } from "../services/apiProfiles";
 import useAuth from "../hooks/useAuth";
 import Loader from "../ui/Loader";
 import { useNavigate } from "react-router-dom";
 
-function CheckoutDetails({ setUserHasInfo, userHasInfo }) {
+type CheckoutDetailsProps = {
+  setUserHasInfo: React.Dispatch<React.SetStateAction<boolean>>;
+  userHasInfo: boolean;
+};
+
+function CheckoutDetails({
+  setUserHasInfo,
+  userHasInfo,
+}: CheckoutDetailsProps) {
   const [userAddress, setUserAddress] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -17,15 +21,22 @@ function CheckoutDetails({ setUserHasInfo, userHasInfo }) {
   const navigate = useNavigate();
 
   async function saveUserInfo(e: FormEvent) {
-    setIsLoading(true);
     e.preventDefault();
+
+    if (!userAddress) return setValidationMsg("Address is required");
+    if (!userPhone) return setValidationMsg("Phone Number is required");
+
+    setIsLoading(true);
 
     const userInfo = {
       address: userAddress,
       phone_number: userPhone,
     };
 
+    if (!currentUser) return;
+
     await updateUserProfile(currentUser?.id, userInfo);
+
     setIsLoading(false);
     setUserHasInfo(true);
   }
@@ -43,7 +54,7 @@ function CheckoutDetails({ setUserHasInfo, userHasInfo }) {
           const { address, phone_number: phoneNumber } = userProfile;
 
           setUserAddress(address);
-          setUserPhone(phoneNumber);
+          setUserPhone(phoneNumber ?? "");
         }
         setIsLoading(false);
       }

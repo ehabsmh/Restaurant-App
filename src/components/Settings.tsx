@@ -1,36 +1,58 @@
+/* eslint-disable react-refresh/only-export-components */
 import { FormEvent, useEffect, useReducer, useState } from "react";
 import {
   createUserProfile,
   getUserProfile,
+  IUserInfo,
   updateUserProfile,
 } from "../services/apiProfiles";
 import useAuth from "../hooks/useAuth";
 import Loader from "../ui/Loader";
 import Navbar from "../ui/Navbar";
 
-const initialState = {
+// type userInfoInitState = {
+//   firstName?: string;
+//   lastName?: string;
+//   address?: string;
+//   phoneNumber?: string;
+// };
+
+const initialState: IUserInfo = {
   firstName: "",
   lastName: "",
   address: "",
   phoneNumber: "",
 };
 
-function reducer(state, action) {
+export enum ActionType {
+  setUserInfo = "setUserInfo",
+  changeFirstName = "changeFirstName",
+  changeLastName = "changeLastName",
+  changeAddress = "changeAddress",
+  changePhoneNumber = "changePhoneNumber",
+}
+
+export interface Action {
+  type: ActionType;
+  payload: IUserInfo | string;
+}
+
+function reducer(state: IUserInfo, action: Action) {
   switch (action.type) {
-    case "setUserInfo":
-      return { ...state, ...action.payload };
+    case ActionType.setUserInfo:
+      return { ...state, ...(action.payload as IUserInfo) };
 
-    case "changeFirstName":
-      return { ...state, firstName: action.payload };
+    case ActionType.changeFirstName:
+      return { ...state, firstName: action.payload as string };
 
-    case "changeLastName":
-      return { ...state, lastName: action.payload };
+    case ActionType.changeLastName:
+      return { ...state, lastName: action.payload as string };
 
-    case "changeAddress":
-      return { ...state, address: action.payload };
+    case ActionType.changeAddress:
+      return { ...state, address: action.payload as string };
 
-    case "changePhoneNumber":
-      return { ...state, phoneNumber: action.payload };
+    case ActionType.changePhoneNumber:
+      return { ...state, phoneNumber: action.payload as string };
 
     default:
       return state;
@@ -64,7 +86,7 @@ function Settings() {
         firstName,
         lastName,
         address,
-        phone: phoneNumber,
+        phoneNumber,
       };
       // check if the user has profile
       const profile = await getUserProfile(currentUser.id);
@@ -74,19 +96,7 @@ function Settings() {
       // if no profile, create new profile and insert the new info
       if (!profile) await createUserProfile(currentUser.id, userInfo);
       // if profile, update user profile.
-      else
-        await updateUserProfile(currentUser?.id, {
-          first_name: firstName,
-          last_name: lastName,
-          address,
-          phone_number: phoneNumber,
-        });
-      console.log("User profile update", {
-        firstName,
-        lastName,
-        address,
-        phoneNumber,
-      });
+      else await updateUserProfile(currentUser?.id, userInfo);
 
       setUserInfoCopy({ firstName, lastName, address, phoneNumber });
       setInfoHasChanged(false);
@@ -113,12 +123,22 @@ function Settings() {
           } = userProfile;
 
           dispatch({
-            type: "setUserInfo",
-            payload: { address, firstName, lastName, phoneNumber },
+            type: ActionType.setUserInfo,
+            payload: {
+              address: address ?? "",
+              firstName: firstName ?? "",
+              lastName: lastName ?? "",
+              phoneNumber: phoneNumber ?? "",
+            },
+          });
+
+          setUserInfoCopy({
+            address: address ?? "",
+            firstName: firstName ?? "",
+            lastName: lastName ?? "",
+            phoneNumber: phoneNumber ?? "",
           });
         }
-
-        setUserInfoCopy({ address, firstName, lastName, phoneNumber });
 
         setIsLoading(false);
       }
@@ -152,7 +172,10 @@ function Settings() {
                   setInfoHasChanged(true);
                 else setInfoHasChanged(false);
 
-                dispatch({ type: "changeFirstName", payload: e.target.value });
+                dispatch({
+                  type: ActionType.changeFirstName,
+                  payload: e.target.value,
+                });
               }}
               className="focus:ring-gradient-1 disabled:bg-main-inactive mt-2 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2"
               disabled={isLoading}
@@ -172,7 +195,10 @@ function Settings() {
                   setInfoHasChanged(true);
                 else setInfoHasChanged(false);
 
-                dispatch({ type: "changeLastName", payload: e.target.value });
+                dispatch({
+                  type: ActionType.changeLastName,
+                  payload: e.target.value,
+                });
               }}
               placeholder="Enter your last name"
               className="focus:ring-gradient-1 disabled:bg-main-inactive mt-2 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2"
@@ -193,7 +219,10 @@ function Settings() {
                   setInfoHasChanged(true);
                 else setInfoHasChanged(false);
 
-                dispatch({ type: "changeAddress", payload: e.target.value });
+                dispatch({
+                  type: ActionType.changeAddress,
+                  payload: e.target.value,
+                });
               }}
               placeholder="Enter your address"
               className="focus:ring-gradient-1 disabled:bg-main-inactive mt-2 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2"
@@ -215,7 +244,7 @@ function Settings() {
                 else setInfoHasChanged(false);
 
                 dispatch({
-                  type: "changePhoneNumber",
+                  type: ActionType.changePhoneNumber,
                   payload: e.target.value,
                 });
               }}

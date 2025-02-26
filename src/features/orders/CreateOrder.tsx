@@ -33,19 +33,24 @@ function CreateOrder({ cart, setCart, setCartItems }: CreateOrderProps) {
     }
   }
 
-  useEffect(function () {
-    async function checkUserInfo() {
-      // Check if the user already has a profile (address and phoneNumber)
-      const profile = await getUserProfile(currentUser?.id);
-      console.log(profile);
+  useEffect(
+    function () {
+      async function checkUserInfo() {
+        // Check if the user already has a profile (address and phoneNumber)
+        if (!currentUser) return;
 
-      if (!profile?.address || !profile?.phone_number) {
-        setUserHasInfo(false);
+        const profile = await getUserProfile(currentUser?.id);
+        console.log(profile);
+
+        if (!profile?.address || !profile?.phone_number) {
+          setUserHasInfo(false);
+        }
       }
-    }
 
-    checkUserInfo();
-  }, []);
+      checkUserInfo();
+    },
+    [currentUser],
+  );
 
   return (
     <>
