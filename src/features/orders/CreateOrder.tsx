@@ -59,7 +59,12 @@ function CreateOrder({ cart, setCart, setCartItems }: CreateOrderProps) {
             </p>
           </div>
 
-          {!userHasInfo && <CheckoutDetails setUserHasInfo={setUserHasInfo} />}
+          {!userHasInfo && (
+            <CheckoutDetails
+              setUserHasInfo={setUserHasInfo}
+              userHasInfo={userHasInfo}
+            />
+          )}
           {userHasInfo && (
             <div className="flex justify-center">
               <button

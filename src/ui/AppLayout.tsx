@@ -3,10 +3,9 @@ import Items from "../components/Items";
 import ItemDetails from "../components/ItemDetails";
 import Navbar from "./Navbar";
 import useItemInfo from "../hooks/useItemInfo";
-import ItemInfoContext from "../contexts/ItemInfoContext";
 
 function AppLayout() {
-  const { activeItem } = useItemInfo(ItemInfoContext);
+  const { activeItem } = useItemInfo();
 
   return (
     <div className="h-[inherit] lg:flex lg:justify-between lg:gap-8">

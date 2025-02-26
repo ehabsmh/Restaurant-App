@@ -4,7 +4,7 @@ import supabase from "./supabase";
 export async function getUserProfile(userId: string) {
   const { data: profiles, error } = await supabase
     .from('profiles')
-    .select("*")
+    .select("first_name, last_name, address, phone_number")
     // Filters
     .eq('user_id', userId).maybeSingle();
 
@@ -26,5 +26,14 @@ export async function createUserProfile(userId: string, user: IUser) {
       },
     ])
     .select();
+  if (error) throw new Error(error.message);
+}
+
+export async function updateUserProfile(userId, userInfo) {
+  const { error } = await supabase
+    .from('profiles')
+    .update(userInfo)
+    .eq('user_id', userId)
+
   if (error) throw new Error(error.message);
 }

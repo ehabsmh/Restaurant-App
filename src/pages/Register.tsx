@@ -10,6 +10,7 @@ export interface IUser {
   firstName?: string;
   lastName?: string;
   address?: string;
+  phone?: string;
 }
 
 function Register() {

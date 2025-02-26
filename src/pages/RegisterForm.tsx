@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent } from "react";
-import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -13,22 +12,11 @@ function RegisterForm({ getUserInputs, register }: RegisterFormProps) {
     <div className="limiter h-[90vh]">
       <ToastContainer />
       <div className="container-login100 overflow-auto">
-        <div className="wrap-login100 overflow-auto p-8">
+        <div className="wrap-login100 flex flex-col justify-center overflow-auto p-8">
           <form
             onSubmit={register}
             className="login100-form validate-form flex-sb flex-w"
           >
-            <span className="login100-form-title p-b-53">Sign up With</span>
-            <div className="mb-10 flex justify-between">
-              <a href="#" className="btn-face m-b-20">
-                <FaFacebook />
-              </a>
-
-              <a href="#" className="btn-google m-b-20">
-                <FaGoogle />
-              </a>
-            </div>
-
             <div className="p-t-31 p-b-9">
               <span className="txt1">First Name</span>
             </div>

@@ -20,7 +20,7 @@ function Subcategory({ subcategory }: SubcategoryProps) {
       <img
         src={subcategory.icon ?? ""}
         alt={subcategory.name}
-        className="w-6 lg:w-9"
+        className="w-6 lg:max-w-9"
       />
       <p
         className={`${activeSubcategory === subcategory.id ? "text-white" : "lg:text-main-active text-main-inactive"} text-center text-xs lg:text-sm`}

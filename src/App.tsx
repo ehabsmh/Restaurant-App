@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./features/cart/Cart";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Settings from "./components/Settings";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/profile-setup" element={<p>Hello World!</p>} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </ItemInfoProvider>
     </div>

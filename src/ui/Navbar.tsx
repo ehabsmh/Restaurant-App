@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { BiCart } from "react-icons/bi";
 import useAuth from "../hooks/useAuth";
-import { GrLogout } from "react-icons/gr";
+import { GrLogout, GrUserSettings } from "react-icons/gr";
 
 function Navbar() {
   const { isAuthenticated } = useAuth();
@@ -33,6 +33,17 @@ function Navbar() {
               Cart
             </Link>
           </div>
+
+          <Link
+            to="/settings"
+            className="hover:text-gradient-2 group flex cursor-pointer flex-col items-center justify-center text-sm duration-300"
+          >
+            <GrUserSettings
+              size={20}
+              className="group-hover:text-gradient-2 duration-300"
+            />
+            Settings
+          </Link>
 
           <Link
             to="/login"
