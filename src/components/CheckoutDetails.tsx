@@ -15,6 +15,13 @@ function CheckoutDetails({
 }: CheckoutDetailsProps) {
   const [userAddress, setUserAddress] = useState("");
   const [userPhone, setUserPhone] = useState("");
+  const [userInfo, setUserInfo] = useState<{
+    address: string;
+    phoneNumber: string;
+  }>({
+    address: "",
+    phoneNumber: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [validationMsg, setValidationMsg] = useState("");
   const { currentUser } = useAuth();
@@ -30,7 +37,7 @@ function CheckoutDetails({
 
     const userInfo = {
       address: userAddress,
-      phone_number: userPhone,
+      phoneNumber: userPhone,
     };
 
     if (!currentUser) return;
@@ -53,7 +60,8 @@ function CheckoutDetails({
         if (userProfile) {
           const { address, phone_number: phoneNumber } = userProfile;
 
-          setUserAddress(address);
+          setUserInfo({ address, phoneNumber });
+          setUserAddress(address ?? "");
           setUserPhone(phoneNumber ?? "");
         }
         setIsLoading(false);
@@ -85,11 +93,13 @@ function CheckoutDetails({
     [userAddress, userPhone],
   );
 
+  if (userHasInfo) return null;
+
   return (
     <>
       <p className="mt-10 text-sm text-red-600/70">{validationMsg}</p>
       <form className="mt-5" onSubmit={saveUserInfo}>
-        {!userAddress && !userHasInfo && (
+        {!userInfo.address && (
           <>
             <div className="p-t-31 p-b-9">
               <span className="txt1">Address</span>
@@ -109,7 +119,7 @@ function CheckoutDetails({
             </div>
           </>
         )}
-        {!userPhone || !userHasInfo ? (
+        {!userPhone.phoneNumber && (
           <>
             <div className="p-t-31 p-b-9">
               <span className="txt1">Phone Number</span>
@@ -128,8 +138,6 @@ function CheckoutDetails({
               <span className="focus-input100"></span>
             </div>
           </>
-        ) : (
-          ""
         )}
         <button className="bg-body! p-0! w-24! h-14! mb-10 rounded-md text-sm">
           {isLoading ? <Loader color="#ed4b74" size={15} /> : "Save"}
