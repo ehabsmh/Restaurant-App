@@ -41,7 +41,7 @@ function ItemSizes({ itemId, activeSizeId, dispatch }: ItemSizesProps) {
             {itemSizes.map((size, i) => (
               <th
                 key={i}
-                className={`border-gradient-1 text-main-inactive cursor-pointer border p-2 text-sm ${activeSizeId === size.size_id ? "text-secondary bg-main-active" : ""}`}
+                className={`border-gradient-1 text-main-active lg:text-main-inactive cursor-pointer border p-2 text-sm ${activeSizeId === size.size_id ? "text-secondary bg-main-active" : ""}`}
                 onClick={() =>
                   dispatch({
                     type: ActionType.addVariant,
@@ -62,7 +62,7 @@ function ItemSizes({ itemId, activeSizeId, dispatch }: ItemSizesProps) {
             {itemSizes.map((size, i) => (
               <td
                 key={i}
-                className={`${activeSizeId === size.size_id ? "text-secondary" : ""} border-gradient-1 text-main-inactive border p-2 text-sm`}
+                className={`${activeSizeId === size.size_id ? "text-secondary" : ""} border-gradient-1 text-main-active lg:text-main-inactive border p-2 text-sm font-bold lg:font-normal`}
               >
                 ${size.price}
               </td>

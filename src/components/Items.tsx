@@ -53,7 +53,7 @@ function Items() {
   return (
     <>
       <SmallScreenCategories />
-      <div className="flex h-fit grow flex-col items-center overflow-auto px-5 lg:mt-7 lg:h-[85vh] lg:overflow-x-hidden lg:p-0">
+      <div className="flex h-fit grow flex-col items-center overflow-auto px-5 lg:mt-7 lg:h-[70vh] lg:overflow-x-hidden lg:p-0">
         {isLoading && <Loader color="#ed4b74" />}
 
         <div

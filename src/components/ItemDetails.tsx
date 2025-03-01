@@ -3,7 +3,6 @@ import { useEffect, useReducer, useState } from "react";
 import ItemQuantity from "./ItemQuantity";
 import ItemSizes from "./ItemSizes";
 import AddToCart from "../features/cart/AddToCart";
-import AddToFavorite from "../features/favorite/AddToFavorite";
 import { addItem, checkItemInCart } from "../services/apiCart";
 import ItemIngredients from "./ItemIngredients";
 import ItemDescription from "./ItemDescription";
@@ -71,7 +70,11 @@ function reducer(state: ItemDetailsInitState, action: Action) {
   }
 }
 
-function ItemDetails() {
+type ItemDetailsProps = {
+  imgWidth: number;
+  imgHeight: number;
+};
+function ItemDetails({ imgWidth, imgHeight }: ItemDetailsProps) {
   const [itemInCart, setItemInCart] = useState(false);
   const [{ quantity, activeSizeId, activeItemPrice }, dispatch] = useReducer(
     reducer,
@@ -114,14 +117,14 @@ function ItemDetails() {
   if (!activeItem) return null;
 
   return (
-    <div className="ml-8 hidden h-[85vh] grow overflow-y-auto lg:mt-7 lg:block">
+    <div className="grow overflow-y-auto lg:ml-8 lg:mt-7 lg:block lg:h-[70vh]">
       <div className="before:bg-body relative mx-auto flex w-[90%] flex-col items-center justify-center gap-3 before:absolute before:-left-5 before:bottom-0 before:top-0 before:w-0.5">
         <img
           src={activeItem.image}
           alt={activeItem.name}
-          className="h-[330px] w-[450px] rounded-md"
+          className={`h-[${imgHeight}px] w-[${imgWidth}px] mt-7 rounded-md lg:mt-0`}
         />
-        <p className="mb-5">{activeItem.name}</p>
+        <p className="text-main mb-5 lg:text-black">{activeItem.name}</p>
 
         <ItemIngredients activeItem={activeItem} />
 
@@ -145,7 +148,7 @@ function ItemDetails() {
           {itemInCart && (
             <p className="text-sm font-bold">Already in your cart</p>
           )}
-          <AddToFavorite />
+          {/* <AddToFavorite /> */}
         </div>
       </div>
     </div>

@@ -1,11 +1,7 @@
 import useItemInfo from "../hooks/useItemInfo";
 import { IItems } from "./Items";
 
-type ItemProps = {
-  item: IItems;
-};
-
-function Item({ item }: ItemProps) {
+function Item({ item }: { item: IItems }) {
   const { handleActiveItem, activeItem } = useItemInfo();
   return (
     <div className="relative max-w-[250px] lg:w-full">

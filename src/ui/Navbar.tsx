@@ -9,7 +9,9 @@ function Navbar() {
   return (
     <div className="flex max-h-[10vh] w-full items-center justify-between bg-white p-3">
       <div>
-        <h1 className="text-secondary text-2xl font-bold">Foods</h1>
+        <Link to="/" className="text-secondary text-2xl font-bold">
+          Foods
+        </Link>
         <p className="text-sm">Cak Benu Food & Beverages</p>
       </div>
 

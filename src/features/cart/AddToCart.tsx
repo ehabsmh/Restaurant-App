@@ -11,7 +11,7 @@ function AddToCart({ addToCart, setItemInCart }: AddToCartProps) {
   const navigate = useNavigate();
   return (
     <div className="">
-      <p className="text-sm">Add to cart</p>
+      <p className="text-main text-sm lg:text-black">Add to cart</p>
       <BiCartAdd
         onClick={() => {
           if (!currentUser) navigate("/login");

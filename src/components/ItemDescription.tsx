@@ -23,12 +23,14 @@ function ItemDescription({ activeItem }: ItemDescriptionProps) {
   if (!itemDescription) return null;
   return (
     <div className="flex max-w-[400px] items-center self-start">
-      <p className="text-main-inactive">
-        <span className="font-bold text-black">Description: </span>{" "}
+      <p className="text-main-active lg:text-main-inactive">
+        <span className="font-bold text-white lg:text-black">
+          Description:{" "}
+        </span>{" "}
         {itemDescription}
       </p>
       <p
-        className="text-main-inactive ml-5 cursor-pointer text-sm underline duration-300 hover:text-black"
+        className="text-main-active lg:text-main-inactive ml-5 cursor-pointer text-sm underline duration-300 hover:text-black"
         onClick={() => setFullDescription((full) => !full)}
       >
         {fullDescription ? "see less" : "see more"}

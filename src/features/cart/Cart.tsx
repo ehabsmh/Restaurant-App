@@ -5,6 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import CreateOrder from "../orders/CreateOrder";
 import { ToastContainer } from "react-toastify";
 import Loader from "../../ui/Loader";
+import Navbar from "../../ui/Navbar";
 
 export interface ICartItem {
   cart_id: number;
@@ -68,34 +69,37 @@ function Cart() {
     [userCartId],
   );
   return (
-    <div className="p-5">
-      <ToastContainer />
-      <div className="mb-8">
-        <h3 className="text-secondary text-3xl font-bold">Your cart</h3>
-      </div>
-      {isLoading && <Loader color="#ed4b74" />}
-      {!isLoading && cartItems.length ? (
-        <div className="grid h-[80vh] grid-cols-3 gap-20">
-          <div className="col-span-2 overflow-auto">
-            {cartItems.map((cartItem, i) => (
-              <CartItem
-                key={i}
-                cartItem={cartItem}
-                setCartItems={setCartItems}
-              />
-            ))}
-          </div>
-
-          <CreateOrder
-            cart={cart}
-            setCartItems={setCartItems}
-            setCart={setCart}
-          />
+    <>
+      <Navbar />
+      <div className="p-5">
+        <ToastContainer />
+        <div className="mb-8">
+          <h3 className="text-secondary text-3xl font-bold">Your cart</h3>
         </div>
-      ) : (
-        !isLoading && <p>No items in your cart</p>
-      )}
-    </div>
+        {isLoading && <Loader color="#ed4b74" />}
+        {!isLoading && cartItems.length ? (
+          <div className="h-full lg:grid lg:h-auto lg:grid-cols-3 lg:gap-20">
+            <div className="h-[30vh] overflow-auto lg:col-span-2 lg:h-[60vh]">
+              {cartItems.map((cartItem, i) => (
+                <CartItem
+                  key={i}
+                  cartItem={cartItem}
+                  setCartItems={setCartItems}
+                />
+              ))}
+            </div>
+
+            <CreateOrder
+              cart={cart}
+              setCartItems={setCartItems}
+              setCart={setCart}
+            />
+          </div>
+        ) : (
+          !isLoading && <p>No items in your cart</p>
+        )}
+      </div>
+    </>
   );
 }
 

@@ -10,24 +10,24 @@ import Settings from "./components/Settings";
 
 function App() {
   return (
-    <div id="container" className="bg-main h-[95vh] w-[90%]">
-      <ItemInfoProvider>
-        <Routes>
-          <Route index element={<AppLayout />} />
-          <Route
-            path="/cart"
-            element={
-              <ProtectedRoute>
-                <Cart />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-      </ItemInfoProvider>
-    </div>
+    // <div id="container" className="bg-main h-[95vh] w-[90%]">
+    <ItemInfoProvider>
+      <Routes>
+        <Route index element={<AppLayout />} />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </ItemInfoProvider>
+    // </div>
   );
 }
 

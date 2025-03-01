@@ -53,36 +53,31 @@ function CreateOrder({ cart, setCart, setCartItems }: CreateOrderProps) {
   );
 
   return (
-    <>
-      <div className="flex justify-center gap-5">
-        <div className="h-full w-px bg-gray-300"></div>
-        <div>
-          <div className="flex items-center justify-between">
-            <h4 className="text-secondary text-2xl font-medium">Total</h4>
-            <p className="text-gradient-1 text-lg font-bold">
-              ${cart?.total_price}
-            </p>
-          </div>
-
-          {!userHasInfo && (
-            <CheckoutDetails
-              setUserHasInfo={setUserHasInfo}
-              userHasInfo={userHasInfo}
-            />
-          )}
-          {userHasInfo && (
-            <div className="flex justify-center">
-              <button
-                className="btn-google w-56! mt-7 font-bold"
-                onClick={order}
-              >
-                Create Order
-              </button>
-            </div>
-          )}
+    <div className="lg:flex lg:h-[60vh] lg:justify-center lg:gap-5">
+      <div className="h-full w-px bg-gray-300"></div>
+      <div>
+        <div className="flex items-center justify-between">
+          <h4 className="text-secondary text-2xl font-medium">Total</h4>
+          <p className="text-gradient-1 text-lg font-bold">
+            ${cart?.total_price}
+          </p>
         </div>
+
+        {!userHasInfo && (
+          <CheckoutDetails
+            setUserHasInfo={setUserHasInfo}
+            userHasInfo={userHasInfo}
+          />
+        )}
+        {userHasInfo && (
+          <div className="flex justify-center">
+            <button className="btn-google w-56! mt-7 font-bold" onClick={order}>
+              Create Order
+            </button>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 

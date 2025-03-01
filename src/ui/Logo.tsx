@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 function Logo() {
   return (
-    <div className="w-16">
+    <Link to="/" className="w-16">
       <img src="/public/assets/logo.png" />
-    </div>
+    </Link>
   );
 }
 

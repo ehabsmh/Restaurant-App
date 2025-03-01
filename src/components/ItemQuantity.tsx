@@ -20,7 +20,7 @@ function ItemQuantity({
         value={quantity}
         size={1}
         disabled={true}
-        className="text-center outline-0"
+        className="text-center text-sm outline-0"
       />
       <div
         className={`lg:from-gradient-1 lg:to-gradient-2 flex h-9 flex-col ${quantity === 10 ? "justify-end" : "justify-start"} bg-gradient-to-br px-2`}
@@ -28,7 +28,7 @@ function ItemQuantity({
         {quantity < 10 && (
           <FaAngleUp
             size={18}
-            className="text-main-active cursor-pointer duration-150 hover:text-white active:text-white"
+            className="text-main-inactive lg:text-main-active cursor-pointer duration-150 hover:text-white active:text-white"
             onClick={() =>
               dispatch !== undefined
                 ? dispatch({ type: ActionType.incQuantity })
@@ -39,7 +39,7 @@ function ItemQuantity({
         {quantity > 1 && (
           <FaAngleDown
             size={18}
-            className="text-main-active cursor-pointer duration-150 hover:text-white active:text-white"
+            className="text-main-inactive lg:text-main-active cursor-pointer duration-150 hover:text-white active:text-white"
             onClick={() =>
               dispatch !== undefined
                 ? dispatch({ type: ActionType.decQuantity })
