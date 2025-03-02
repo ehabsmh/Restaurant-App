@@ -53,7 +53,7 @@ function CreateOrder({ cart, setCart, setCartItems }: CreateOrderProps) {
   );
 
   return (
-    <div className="lg:flex lg:h-[60vh] lg:justify-center lg:gap-5">
+    <div className="mt-5 lg:mt-0 lg:flex lg:h-[60vh] lg:justify-center lg:gap-5">
       <div className="h-full w-px bg-gray-300"></div>
       <div>
         <div className="flex items-center justify-between">
