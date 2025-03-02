@@ -16,7 +16,7 @@ function AppLayout() {
         {/* Big screens */}
         <div className="hidden lg:flex lg:grow">
           <Items />
-          {activeItem && <ItemDetails imgHeight={330} imgWidth={450} />}
+          {activeItem && <ItemDetails imgHeight="330" imgWidth="450" />}
         </div>
         {/* Small/Medium screens */}
         <div className="relative lg:hidden">
@@ -28,7 +28,7 @@ function AppLayout() {
                 size={20}
                 onClick={() => handleActiveItem(null)}
               />
-              {activeItem && <ItemDetails imgHeight={150} imgWidth={200} />}
+              {activeItem && <ItemDetails imgHeight="150" imgWidth="200" />}
             </div>
           )}
         </div>

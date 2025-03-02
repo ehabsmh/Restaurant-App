@@ -71,8 +71,8 @@ function reducer(state: ItemDetailsInitState, action: Action) {
 }
 
 type ItemDetailsProps = {
-  imgWidth: number;
-  imgHeight: number;
+  imgWidth: string;
+  imgHeight: string;
 };
 function ItemDetails({ imgWidth, imgHeight }: ItemDetailsProps) {
   const [itemInCart, setItemInCart] = useState(false);
@@ -122,7 +122,8 @@ function ItemDetails({ imgWidth, imgHeight }: ItemDetailsProps) {
         <img
           src={activeItem.image}
           alt={activeItem.name}
-          className={`h-[${imgHeight}px] w-[${imgWidth}px] mt-7 rounded-md lg:mt-0`}
+          style={{ height: `${imgHeight}px`, width: `${imgWidth}px` }}
+          className="mt-7 rounded-md lg:mt-0"
         />
         <p className="text-main mb-5 lg:text-black">{activeItem.name}</p>
 
