@@ -375,7 +375,7 @@ export type Database = {
           created_at: string
           first_name: string
           last_name: string
-          phone_number: string | null
+          phone_number: string
           user_id: string
         }
         Insert: {
@@ -383,7 +383,7 @@ export type Database = {
           created_at?: string
           first_name: string
           last_name: string
-          phone_number?: string | null
+          phone_number: string
           user_id: string
         }
         Update: {
@@ -391,7 +391,7 @@ export type Database = {
           created_at?: string
           first_name?: string
           last_name?: string
-          phone_number?: string | null
+          phone_number?: string
           user_id?: string
         }
         Relationships: []
