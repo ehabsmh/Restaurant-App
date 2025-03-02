@@ -77,6 +77,8 @@ function Settings() {
 
   const [isNew, setIsNew] = useState(false);
 
+  const [error, setError] = useState("");
+
   async function updateProfile(e: FormEvent) {
     e.preventDefault();
     if (!currentUser) return;
@@ -91,15 +93,22 @@ function Settings() {
       // check if the user has profile
       const profile = await getUserProfile(currentUser.id);
 
-      console.log(profile);
+      if (Object.values(userInfo).some((value) => !value)) {
+        setError("Please provide us your info");
+        setInfoHasChanged(false);
+        return;
+      }
 
       // if no profile, create new profile and insert the new info
-      if (!profile) await createUserProfile(currentUser.id, userInfo);
+      if (!profile) {
+        await createUserProfile(currentUser.id, userInfo);
+      }
       // if profile, update user profile.
       else await updateUserProfile(currentUser?.id, userInfo);
 
       setUserInfoCopy({ firstName, lastName, address, phoneNumber });
       setInfoHasChanged(false);
+      setError("");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
@@ -156,6 +165,8 @@ function Settings() {
         <h2 className="mb-8 text-2xl font-semibold text-gray-800">
           {isNew ? "Create new profile" : "Settings"}
         </h2>
+
+        {error && <p className="text-red-400">{error}</p>}
 
         <form className="space-y-4" onSubmit={updateProfile}>
           {/* First Name */}
@@ -257,7 +268,6 @@ function Settings() {
           {/* Save Button */}
           <button
             type="submit"
-            disabled={isLoading || !infoHasChanged}
             className={`${isLoading || !infoHasChanged ? "cursor-default! bg-secondary/70!" : "bg-gradient-to-bl! from-gradient-1 to-gradient-2"} hover:bg-secondary mt-3 w-full rounded-lg py-2 font-semibold text-white transition duration-200`}
           >
             {isLoading ? <Loader size={15} color="#ffffff" /> : "Save Changes"}
