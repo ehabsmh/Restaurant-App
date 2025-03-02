@@ -35,8 +35,10 @@ function ItemIngredients({ activeItem }: ItemIngredientsProps) {
 
   return (
     <div className="flex max-w-[400px] items-center self-start">
-      <p className="text-main-inactive">
-        <span className="font-bold text-black">Ingredients: </span>{" "}
+      <p className="text-main-active lg:text-main-inactive">
+        <span className="font-bold text-white lg:text-black">
+          Ingredients:{" "}
+        </span>{" "}
         {ingredients}
       </p>
     </div>
