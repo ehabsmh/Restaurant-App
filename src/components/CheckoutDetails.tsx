@@ -119,7 +119,7 @@ function CheckoutDetails({
             </div>
           </>
         )}
-        {!userPhone.phoneNumber && (
+        {!userInfo.phoneNumber && (
           <>
             <div className="p-t-31 p-b-9">
               <span className="txt1">Phone Number</span>
